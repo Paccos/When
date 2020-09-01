@@ -1,0 +1,82 @@
+.date {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 50px;
+	margin-bottom: 8px;
+}
+
+.month {
+	font-family: 'Helvetica Neue';
+	color: red;
+	font-size: 26px;
+	font-weight: bold;
+}
+
+.day {
+	font-family: 'Helvetica Neue';
+	font-size: 40px;
+	font-weight: bold;
+	margin-top: -10px;
+}
+
+.weekday {
+	font-family: 'HelveticaNeue-Medium';
+	font-size: 18px;
+	margin-top: 0;
+}
+
+.nameCircle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 26px;
+	color: white;
+	background-color: #129f00;
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+	margin-top: -20px;
+}
+
+.namesBar {
+	display: flex;
+	flex-direction: column-reverse;
+	align-items: center;
+	width: 60px;
+	margin-top: 20px;
+	margin-bottom: 16px;
+}
+
+.maybe {
+	background-color: #ef9c00;
+}
+
+.yesCount {
+	color: #129f00;
+	font: 'HelveticaNeue-Medium';
+	font-size: 20px;
+	margin-right: 1px;
+}
+
+.maybeCount {
+	color: #ef9c00;
+	font: 'HelveticaNeue-Medium';
+	font-size: 20px;
+	margin-left: 1px;
+}
+
+.ymCounter {
+	display: flex;
+	justify-content: center;
+	width: 12px;
+}
+
+.dateColumn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 60px;
+}
