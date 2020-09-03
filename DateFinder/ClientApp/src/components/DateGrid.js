@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './DateView.css';
+import checkmark from '../images/Checkmark.png';
+import cross from '../images/Cross.png';
 
 const DateView = (props) => {
 	const date = new Date(props.date);
@@ -53,7 +55,39 @@ const YesMaybeCounter = (props) => {
 	);
 };
 
-export const DateColumn = (props) => {
+const toggleButtonStates = {
+	yes: 'yes',
+	maybe: 'maybe',
+	no: 'no',
+};
+
+const ToggleButton = (props) => {
+	const [buttonState, setButtonState] = useState(props.buttonState);
+
+	const className = `toggleButton ${buttonState}`;
+
+	return (
+		<button
+			className={className}
+			onClick={() => {
+				if (buttonState === ToggleButton.buttonStates.yes)
+					setButtonState(ToggleButton.buttonStates.maybe);
+				else if (buttonState === ToggleButton.buttonStates.maybe)
+					setButtonState(ToggleButton.buttonStates.no);
+				else if (buttonState === ToggleButton.buttonStates.no)
+					setButtonState(ToggleButton.buttonStates.yes);
+			}}
+		>
+			<img
+				src={buttonState === ToggleButton.buttonStates.no ? cross : checkmark}
+			/>
+		</button>
+	);
+};
+
+ToggleButton.buttonStates = toggleButtonStates;
+
+const DateColumn = (props) => {
 	const date = props.date;
 	const namesAndStates = props.namesAndStates;
 
@@ -65,6 +99,21 @@ export const DateColumn = (props) => {
 			<NamesBar namesAndStates={namesAndStates} />
 			<DateView date={date} />
 			<YesMaybeCounter yes={yesCount} maybe={maybeCount} />
+			<ToggleButton buttonState={ToggleButton.buttonStates.no} />
 		</div>
 	);
 };
+
+const DateGrid = (props) => {
+	const entries = props.entries;
+
+	return (
+		<div className="dateGrid">
+			{entries.map((e, index) => (
+				<DateColumn date={e.date} namesAndStates={e.entries} key={index} />
+			))}
+		</div>
+	);
+};
+
+export default DateGrid;

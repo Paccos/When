@@ -74,9 +74,36 @@
 	width: 12px;
 }
 
+.toggleButton {
+	width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	border-width: 0;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+	margin-bottom: 20px;
+}
+
+.toggleButton.yes {
+	background-color: #129f00;
+}
+
+.toggleButton.maybe {
+	background-color: #ef9c00;
+}
+
+.toggleButton.no {
+	background-color: #ef0000;
+}
+
 .dateColumn {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 60px;
+	margin: 0 18px;
+}
+
+.dateGrid {
+	display: flex;
+	overflow: scroll;
 }
