@@ -1,14 +1,44 @@
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+	color: #0366d6;
 }
 
 code {
-  color: #E01A76;
+	color: #e01a76;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+	color: #fff;
+	background-color: #1b6ec2;
+	border-color: #1861ac;
+}
+
+h1.title {
+	text-align: center;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 48px;
+}
+
+h3.subtitle {
+	text-align: center;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 22px;
+}
+
+.titleHeading {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 48px;
+}
+
+input[type='text'] {
+	border-radius: 8px;
+	border-color: #afafaf;
+	border-width: 1px;
+	border-style: solid;
+	font-family: 'Helvetica Neue';
+	padding: 8px 12px;
+	width: 80%;
+	margin-top: 48px;
 }
