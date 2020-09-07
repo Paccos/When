@@ -1,163 +1,130 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
 import DateGrid from './components/DateGrid';
 
-export default class App extends Component {
-	static displayName = App.name;
+const App = (props) => {
+	const dummy = [
+		{
+			date: '2020-08-20',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-22',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-23',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-24',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-26',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-28',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-29',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-30',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+		{
+			date: '2020-08-31',
+			entries: [
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: false },
+				{ name: 'Max Mustermann', maybe: true },
+			],
+		},
+	];
 
-	constructor(props) {
-		super(props);
+	const displayName = App.name;
 
-		this.state = {
-			username: '',
-		};
-	}
+	const [username, setUsername] = useState('');
+	const [namesAndStates, setNamesAndStates] = useState(dummy);
 
-	render() {
-		const dummy = [
-			{
-				date: '2020-08-20',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-22',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-			{
-				date: '2020-08-23',
-				entries: [
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: false },
-					{ name: 'Max Mustermann', maybe: true },
-				],
-			},
-		];
+	const initialSelection = dummy.map((entry) => ({
+		date: entry.date,
+		state: 'no',
+	}));
+	const [userSelections, setUserSelections] = useState(initialSelection);
 
-		return (
-			<Layout>
-				<div className="titleHeading">
-					<h1 className="title">DnD</h1>
-					<h3 className="subtitle">Umfrage von Pac</h3>
-					<input
-						type="text"
-						placeholder="Dein Name"
-						onChange={(e) => this.setState({ username: e.target.value })}
-					></input>
-				</div>
-				<DateGrid entries={dummy} />
-			</Layout>
-		);
-	}
-}
+	const handleUserSelection = (date, state) => {
+		let selections = userSelections.slice();
+		selections.find((s) => s.date === date).state = state;
+
+		setUserSelections(selections);
+	};
+
+	return (
+		<Layout>
+			<div className="titleHeading">
+				<h1 className="title">DnD</h1>
+				<h3 className="subtitle">Umfrage von Pac</h3>
+				<input
+					type="text"
+					placeholder="Dein Name"
+					onChange={(e) => setUsername(e.target.value)}
+				></input>
+			</div>
+			<DateGrid
+				entries={namesAndStates}
+				userSelections={userSelections}
+				handleUserSelection={handleUserSelection}
+			/>
+		</Layout>
+	);
+};
+
+export default App;

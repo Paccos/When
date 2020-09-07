@@ -62,8 +62,7 @@ const toggleButtonStates = {
 };
 
 const ToggleButton = (props) => {
-	const [buttonState, setButtonState] = useState(props.buttonState);
-
+	const buttonState = props.buttonState;
 	const className = `toggleButton ${buttonState}`;
 
 	return (
@@ -71,11 +70,11 @@ const ToggleButton = (props) => {
 			className={className}
 			onClick={() => {
 				if (buttonState === ToggleButton.buttonStates.yes)
-					setButtonState(ToggleButton.buttonStates.maybe);
+					props.handleButtonChange(ToggleButton.buttonStates.maybe);
 				else if (buttonState === ToggleButton.buttonStates.maybe)
-					setButtonState(ToggleButton.buttonStates.no);
+					props.handleButtonChange(ToggleButton.buttonStates.no);
 				else if (buttonState === ToggleButton.buttonStates.no)
-					setButtonState(ToggleButton.buttonStates.yes);
+					props.handleButtonChange(ToggleButton.buttonStates.yes);
 			}}
 		>
 			<img
@@ -99,7 +98,12 @@ const DateColumn = (props) => {
 			<NamesBar namesAndStates={namesAndStates} />
 			<DateView date={date} />
 			<YesMaybeCounter yes={yesCount} maybe={maybeCount} />
-			<ToggleButton buttonState={ToggleButton.buttonStates.no} />
+			<ToggleButton
+				buttonState={props.buttonState}
+				handleButtonChange={(state) => {
+					props.handleButtonChange(state);
+				}}
+			/>
 		</div>
 	);
 };
@@ -110,7 +114,18 @@ const DateGrid = (props) => {
 	return (
 		<div className="dateGrid">
 			{entries.map((e, index) => (
-				<DateColumn date={e.date} namesAndStates={e.entries} key={index} />
+				<DateColumn
+					date={e.date}
+					namesAndStates={e.entries}
+					key={index}
+					buttonState={
+						props.userSelections.find((selection) => selection.date === e.date)
+							.state
+					}
+					handleButtonChange={(state) => {
+						props.handleUserSelection(e.date, state);
+					}}
+				/>
 			))}
 		</div>
 	);
