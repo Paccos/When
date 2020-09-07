@@ -107,6 +107,24 @@ const App = (props) => {
 		setUserSelections(selections);
 	};
 
+	const entriesIncludingUserSelections = (entries, userSelections) => {
+		return entries.map((e) => {
+			const selection = userSelections.find((u) => u.date === e.date);
+
+			if (selection.state === 'no') return e;
+			else if (selection.state === 'maybe')
+				return {
+					date: e.date,
+					entries: [...e.entries, { name: username, maybe: true }],
+				};
+			else
+				return {
+					date: e.date,
+					entries: [{ name: username, maybe: false }, ...e.entries],
+				};
+		});
+	};
+
 	return (
 		<Layout>
 			<div className="titleHeading">
@@ -119,7 +137,7 @@ const App = (props) => {
 				></input>
 			</div>
 			<DateGrid
-				entries={namesAndStates}
+				entries={entriesIncludingUserSelections(namesAndStates, userSelections)}
 				userSelections={userSelections}
 				handleUserSelection={handleUserSelection}
 			/>
