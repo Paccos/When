@@ -127,7 +127,7 @@ const App = (props) => {
 	};
 
 	return (
-		<Layout>
+		<div className="main">
 			<div className="titleHeading">
 				<h1 className="title">DnD</h1>
 				<h3 className="subtitle">Umfrage von Pac</h3>
@@ -148,7 +148,7 @@ const App = (props) => {
 				/>
 				<SubmitButton />
 			</div>
-		</Layout>
+		</div>
 	);
 };
 
