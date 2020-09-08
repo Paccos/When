@@ -34,7 +34,7 @@
 	font-size: 26px;
 	color: white;
 	background-color: #129f00;
-	width: 60px;
+	min-width: 60px;
 	height: 60px;
 	border-radius: 30px;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
@@ -71,11 +71,10 @@
 .ymCounter {
 	display: flex;
 	justify-content: center;
-	width: 12px;
 }
 
 .toggleButton {
-	width: 60px;
+	min-width: 60px;
 	height: 60px;
 	border-radius: 30px;
 	border-width: 0;
@@ -108,4 +107,81 @@
 	overflow: scroll;
 	align-items: flex-end;
 	flex-grow: 4;
+	margin-right: 16px;
+}
+
+@media (max-width: 740px) {
+	.dateGrid {
+		overflow: none;
+		align-items: initial;
+		flex-direction: column;
+		margin: auto 0;
+	}
+
+	.dateColumn {
+		flex-direction: row;
+		margin: 0;
+		margin-bottom: 16px;
+	}
+
+	.namesBar {
+		flex-direction: row;
+		width: auto;
+		order: 3;
+		margin: 0;
+		margin-left: 20px;
+		padding: 8px 0;
+	}
+
+	.nameCircle {
+		margin-top: 0;
+		margin-left: -20px;
+	}
+
+	.date {
+		order: 1;
+		margin-bottom: 0px;
+		margin-top: 0px;
+		margin-right: 16px;
+	}
+
+	.ymCounter {
+		order: 2;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-around;
+		margin-right: 16px;
+		margin-top: auto;
+		margin-bottom: auto;
+		min-width: 32px;
+	}
+
+	.yesCount {
+		margin: 0;
+	}
+
+	.maybeCount {
+		margin: 0;
+	}
+
+	.toggleButton {
+		margin-bottom: 0;
+		margin-right: 16px;
+	}
+}
+
+@media (max-width: 480px) {
+	.namesBar {
+		overflow: scroll;
+		margin-left: 0px;
+		padding-left: 20px;
+
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
+
+	/* Hide scrollbar for Chrome, Safari and Opera */
+	.namesBar::-webkit-scrollbar {
+		display: none;
+	}
 }
