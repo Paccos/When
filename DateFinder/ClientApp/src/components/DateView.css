@@ -107,4 +107,5 @@
 	display: flex;
 	overflow: scroll;
 	align-items: flex-end;
+	flex-grow: 4;
 }

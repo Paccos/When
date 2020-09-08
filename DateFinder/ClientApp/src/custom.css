@@ -32,6 +32,11 @@ h3.subtitle {
 	margin: 48px;
 }
 
+.resultsAndSubmit {
+	display: flex;
+	align-items: flex-end;
+}
+
 input[type='text'] {
 	border-radius: 8px;
 	border-color: #afafaf;

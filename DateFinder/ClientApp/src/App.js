@@ -3,6 +3,7 @@ import { Layout } from './components/Layout';
 
 import './custom.css';
 import DateGrid from './components/DateGrid';
+import SubmitButton from './components/SubmitButton';
 
 const App = (props) => {
 	const dummy = [
@@ -136,11 +137,17 @@ const App = (props) => {
 					onChange={(e) => setUsername(e.target.value)}
 				></input>
 			</div>
-			<DateGrid
-				entries={entriesIncludingUserSelections(namesAndStates, userSelections)}
-				userSelections={userSelections}
-				handleUserSelection={handleUserSelection}
-			/>
+			<div className="resultsAndSubmit">
+				<DateGrid
+					entries={entriesIncludingUserSelections(
+						namesAndStates,
+						userSelections
+					)}
+					userSelections={userSelections}
+					handleUserSelection={handleUserSelection}
+				/>
+				<SubmitButton />
+			</div>
 		</Layout>
 	);
 };
