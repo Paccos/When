@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
-import DateGrid from './components/DateGrid';
+import DateGrid, { NameCircle } from './components/DateGrid';
 import SubmitButton from './components/SubmitButton';
+import edit from './images/Edit.png';
 
 const App = (props) => {
 	const dummy = [
@@ -90,6 +91,12 @@ const App = (props) => {
 		},
 	];
 
+	const dummyParticipants = [
+		'Patryk Pekala',
+		'Max Mustermann',
+		'Benjamin Blümchen',
+	];
+
 	const displayName = App.name;
 
 	const [username, setUsername] = useState('');
@@ -147,6 +154,20 @@ const App = (props) => {
 					handleUserSelection={handleUserSelection}
 				/>
 				<SubmitButton />
+			</div>
+			<h3 id="participantHeading" className="subtitle">
+				Teilnehmer:
+			</h3>
+			<div className="participants">
+				{dummyParticipants.map((participant) => (
+					<>
+						<button className="editCircle">
+							<img src={edit} />
+						</button>
+						<NameCircle name={participant} hue={Math.random() * 359} />
+						<div className="participantName">{participant}</div>
+					</>
+				))}
 			</div>
 		</div>
 	);

@@ -19,14 +19,17 @@ const DateView = (props) => {
 	);
 };
 
-const NameCircle = (props) => {
+export const NameCircle = (props) => {
 	const initials = props.name
 		.split(' ')
 		.map((n) => n[0])
 		.join('');
 
 	const maybe = props.maybe;
-	const classes = 'nameCircle ' + (maybe ? 'maybe' : '');
+	const stacked = props.stacked;
+	const classes = `nameCircle ${maybe ? 'maybe' : ''} ${
+		stacked ? 'stackedCircle' : ''
+	}`;
 
 	return <div className={classes}>{initials}</div>;
 };
@@ -37,7 +40,7 @@ const NamesBar = (props) => {
 	return (
 		<div className="namesBar">
 			{namesAndStates.map((n, index) => (
-				<NameCircle key={index} name={n.name} maybe={n.maybe} />
+				<NameCircle stacked={true} key={index} name={n.name} maybe={n.maybe} />
 			))}
 		</div>
 	);
