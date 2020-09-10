@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
@@ -7,106 +7,60 @@ import SubmitButton from './components/SubmitButton';
 import edit from './images/Edit.png';
 
 const App = (props) => {
-	const dummy = [
-		{
-			date: '2020-08-20',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-22',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-23',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-24',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-26',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-28',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-29',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-30',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-		{
-			date: '2020-08-31',
-			entries: [
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: false },
-				{ name: 'Max Mustermann', maybe: true },
-			],
-		},
-	];
+	let pollId = '7357';
 
-	const dummyParticipants = [
-		'Patryk Pekala',
-		'Max Mustermann',
-		'Benjamin Blümchen',
-	];
+	const [participants, setParticipants] = useState([]);
+	const [namesAndStates, setNamesAndStates] = useState([]);
+	const [userSelections, setUserSelections] = useState([]);
+	const [username, setUsername] = useState('');
+
+	const extractedDatesWithParticipants = (userSelections) => {
+		let result = {};
+
+		userSelections.forEach((userSelection) => {
+			userSelection.dateSelections.forEach((dateSelection) => {
+				if (!result[dateSelection.date]) result[dateSelection.date] = [];
+				if (dateSelection.state === ToggleButton.buttonStates.no) return;
+
+				result[dateSelection.date].push({
+					name: userSelection.name,
+					maybe: dateSelection.state === ToggleButton.buttonStates.maybe,
+				});
+			});
+		});
+
+		return result;
+	};
+
+	useEffect(() => {
+		fetch(`api/polls/${pollId}`)
+			.then((response) => response.json())
+			.then((data) => {
+				setParticipants(data.map((d) => d.name));
+
+				const datesWithParticipants = extractedDatesWithParticipants(data);
+
+				setUserSelections(
+					Object.keys(datesWithParticipants).map((date) => {
+						return {
+							date,
+							state: ToggleButton.buttonStates.no,
+						};
+					})
+				);
+
+				setNamesAndStates(
+					Object.entries(datesWithParticipants).map((entry) => {
+						return {
+							date: entry[0],
+							entries: entry[1].sort((a, b) => a.maybe - b.maybe),
+						};
+					})
+				);
+			});
+	}, []);
 
 	const displayName = App.name;
-
-	const [username, setUsername] = useState('');
-	const [namesAndStates, setNamesAndStates] = useState(dummy);
-
-	const initialSelection = dummy.map((entry) => ({
-		date: entry.date,
-		state: ToggleButton.buttonStates.no,
-	}));
-	const [userSelections, setUserSelections] = useState(initialSelection);
 
 	const handleUserSelection = (date, state) => {
 		let selections = userSelections.slice();
@@ -173,7 +127,7 @@ const App = (props) => {
 				Teilnehmer:
 			</h3>
 			<div className="participants">
-				{dummyParticipants.map((participant) => (
+				{participants.map((participant) => (
 					<>
 						<button className="editCircle">
 							<img src={edit} />
