@@ -96,7 +96,7 @@ const App = (props) => {
 
 		console.log(requestOptions.body);
 
-		fetch('weatherforecast', requestOptions)
+		fetch(`api/polls/${pollId}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => console.log(data));
 	};

@@ -57,10 +57,14 @@ namespace DateFinder.Controllers
             };
         }
 
-        // POST: api/Polls
-        [HttpPost]
-        public void Post([FromBody] string value)
+        // POST: api/Polls/5
+        [HttpPost("{id}")]
+        public ActionResult<UserSelection> PostDateSelection(int id, UserSelection selection)
         {
+            Console.WriteLine(id);
+            Console.WriteLine(selection);
+
+            return CreatedAtAction("Blabla", new { id = 4711 }, selection);
         }
 
         // PUT: api/Polls/5
