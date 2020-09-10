@@ -38,7 +38,7 @@ namespace DateFinder.Controllers
         }
 
         [HttpPost]
-        public ActionResult<UserSelectionPayload> PostDateSelection(UserSelectionPayload selection)
+        public ActionResult<UserSelection> PostDateSelection(UserSelection selection)
         {
             Console.WriteLine(selection);
 
