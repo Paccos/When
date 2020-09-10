@@ -1,10 +1,10 @@
 ﻿using System;
 namespace DateFinder.Models
 {
-    public enum SelectionState
+    public enum SelectionState : uint
     {
-        Yes,
-        No,
-        Maybe
+        Yes = 1,
+        No = 0,
+        Maybe = 2
     }
 }
