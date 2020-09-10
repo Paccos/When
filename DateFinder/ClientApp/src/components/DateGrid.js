@@ -59,14 +59,16 @@ const YesMaybeCounter = (props) => {
 };
 
 const toggleButtonStates = {
-	yes: 'yes',
-	maybe: 'maybe',
-	no: 'no',
+	yes: 1,
+	maybe: 2,
+	no: 0,
 };
 
-const ToggleButton = (props) => {
+export const ToggleButton = (props) => {
 	const buttonState = props.buttonState;
-	const className = `toggleButton ${buttonState}`;
+	const className = `toggleButton ${Object.keys(ToggleButton.buttonStates).find(
+		(key) => ToggleButton.buttonStates[key] === buttonState
+	)}`;
 
 	return (
 		<button

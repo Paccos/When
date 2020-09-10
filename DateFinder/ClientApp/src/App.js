@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
-import DateGrid, { NameCircle } from './components/DateGrid';
+import DateGrid, { NameCircle, ToggleButton } from './components/DateGrid';
 import SubmitButton from './components/SubmitButton';
 import edit from './images/Edit.png';
 
@@ -104,7 +104,7 @@ const App = (props) => {
 
 	const initialSelection = dummy.map((entry) => ({
 		date: entry.date,
-		state: 'no',
+		state: ToggleButton.buttonStates.no,
 	}));
 	const [userSelections, setUserSelections] = useState(initialSelection);
 
@@ -119,8 +119,8 @@ const App = (props) => {
 		return entries.map((e) => {
 			const selection = userSelections.find((u) => u.date === e.date);
 
-			if (selection.state === 'no') return e;
-			else if (selection.state === 'maybe')
+			if (selection.state === ToggleButton.buttonStates.no) return e;
+			else if (selection.state === ToggleButton.buttonStates.maybe)
 				return {
 					date: e.date,
 					entries: [...e.entries, { name: username, maybe: true }],
@@ -131,6 +131,20 @@ const App = (props) => {
 					entries: [{ name: username, maybe: false }, ...e.entries],
 				};
 		});
+	};
+
+	const postUserSelection = (userSelections) => {
+		const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ name: username, dateSelections: userSelections }),
+		};
+
+		console.log(requestOptions.body);
+
+		fetch('weatherforecast', requestOptions)
+			.then((response) => response.json())
+			.then((data) => console.log(data));
 	};
 
 	return (
@@ -153,7 +167,7 @@ const App = (props) => {
 					userSelections={userSelections}
 					handleUserSelection={handleUserSelection}
 				/>
-				<SubmitButton />
+				<SubmitButton submitHandler={() => postUserSelection(userSelections)} />
 			</div>
 			<h3 id="participantHeading" className="subtitle">
 				Teilnehmer:

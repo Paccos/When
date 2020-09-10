@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DateFinder.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -34,6 +35,14 @@ namespace DateFinder.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpPost]
+        public ActionResult<UserSelectionPayload> PostDateSelection(UserSelectionPayload selection)
+        {
+            Console.WriteLine(selection);
+
+            return CreatedAtAction("Blabla", new { id = 4711 }, selection);
         }
     }
 }
