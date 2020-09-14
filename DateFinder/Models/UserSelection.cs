@@ -5,7 +5,8 @@ namespace DateFinder.Models
 {
     public class UserSelection
     {
+        public long Id { get; set; }
         public string Name { get; set; }
-        public IEnumerable<DateSelection> DateSelections { get; set; }
+        public List<DateSelection> DateSelections { get; set; }
     }
 }

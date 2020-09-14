@@ -32,7 +32,7 @@ const App = (props) => {
 		return result;
 	};
 
-	useEffect(() => {
+	const fetchPollData = (pollId) => {
 		fetch(`api/polls/${pollId}`)
 			.then((response) => response.json())
 			.then((data) => {
@@ -58,6 +58,10 @@ const App = (props) => {
 					})
 				);
 			});
+	};
+
+	useEffect(() => {
+		fetchPollData(pollId);
 	}, []);
 
 	const displayName = App.name;
@@ -98,7 +102,8 @@ const App = (props) => {
 
 		fetch(`api/polls/${pollId}`, requestOptions)
 			.then((response) => response.json())
-			.then((data) => console.log(data));
+			.then((data) => console.log(data))
+			.then(() => fetchPollData(pollId));
 	};
 
 	return (

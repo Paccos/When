@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DateFinder.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DateFinder.Controllers
 {
@@ -12,16 +13,27 @@ namespace DateFinder.Controllers
     [ApiController]
     public class PollsController : ControllerBase
     {
+        private readonly UserSelectionContext _context;
+
+        public PollsController(UserSelectionContext context)
+        {
+            _context = context;
+        }
+
         // GET: api/Polls/5
         [HttpGet("{id}")]
-        public IEnumerable<UserSelection> Get(int id)
+        public async Task<IEnumerable<UserSelection>> GetUserSelectionsAsync(int id)
         {
             Console.WriteLine(id);
 
-            return new UserSelection[] {
-                new UserSelection {
+            var list = await _context.UserSelections.ToListAsync();
+
+            if (list.Count == 0)
+            {
+                var selection = new UserSelection
+                {
                     Name = "Max Mustermann",
-                    DateSelections = new DateSelection[] {
+                    DateSelections = new List<DateSelection> {
                         new DateSelection { Date = new DateTime(2020, 8, 20), State = SelectionState.Yes },
                         new DateSelection { Date = new DateTime(2020, 8, 21), State = SelectionState.No },
                         new DateSelection { Date = new DateTime(2020, 8, 22), State = SelectionState.Maybe },
@@ -29,42 +41,22 @@ namespace DateFinder.Controllers
                         new DateSelection { Date = new DateTime(2020, 8, 26), State = SelectionState.No },
                         new DateSelection { Date = new DateTime(2020, 8, 28), State = SelectionState.Maybe },
                     }
-                },
+                };
 
-                new UserSelection {
-                    Name = "Patryk Pekala",
-                    DateSelections = new DateSelection[] {
-                        new DateSelection { Date = new DateTime(2020, 8, 20), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 21), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 22), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 24), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 26), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 28), State = SelectionState.Yes },
-                    }
-                },
+                await PostDateSelectionAsync(id, selection);
+            }
 
-                new UserSelection {
-                    Name = "Benjamin Blümchen",
-                    DateSelections = new DateSelection[] {
-                        new DateSelection { Date = new DateTime(2020, 8, 20), State = SelectionState.No },
-                        new DateSelection { Date = new DateTime(2020, 8, 21), State = SelectionState.No },
-                        new DateSelection { Date = new DateTime(2020, 8, 22), State = SelectionState.Maybe },
-                        new DateSelection { Date = new DateTime(2020, 8, 24), State = SelectionState.Maybe },
-                        new DateSelection { Date = new DateTime(2020, 8, 26), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 28), State = SelectionState.Yes },
-                    }
-                },
-            };
+            return await _context.UserSelections.ToListAsync();
         }
 
         // POST: api/Polls/5
         [HttpPost("{id}")]
-        public ActionResult<UserSelection> PostDateSelection(int id, UserSelection selection)
+        public async Task<ActionResult<UserSelection>> PostDateSelectionAsync(int id, UserSelection selection)
         {
-            Console.WriteLine(id);
-            Console.WriteLine(selection);
+            _context.UserSelections.Add(selection);
+            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("Blabla", new { id = 4711 }, selection);
+            return CreatedAtAction(nameof(GetUserSelectionsAsync), new { id = selection.Id }, selection);
         }
 
         // PUT: api/Polls/5
