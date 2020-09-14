@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './DateView.css';
 import checkmark from '../images/Checkmark.png';
 import cross from '../images/Cross.png';
@@ -84,6 +84,9 @@ export const ToggleButton = (props) => {
 		>
 			<img
 				src={buttonState === ToggleButton.buttonStates.no ? cross : checkmark}
+				alt={`${Object.keys(ToggleButton.buttonStates).find(
+					(key) => ToggleButton.buttonStates[key] === buttonState
+				)}`}
 			/>
 		</button>
 	);

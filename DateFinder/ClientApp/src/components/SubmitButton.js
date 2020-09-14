@@ -5,7 +5,7 @@ import submitArrow from '../images/SubmitArrow.png';
 const SubmitButton = (props) => {
 	return (
 		<button className="submitButton" onClick={props.submitHandler}>
-			<img src={submitArrow} />
+			<img src={submitArrow} alt="Submit Arrow" />
 		</button>
 	);
 };

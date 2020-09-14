@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
@@ -32,7 +32,7 @@ const App = (props) => {
 		return result;
 	};
 
-	const fetchPollData = (pollId) => {
+	const fetchPollData = useCallback(() => {
 		fetch(`api/polls/${pollId}`)
 			.then((response) => response.json())
 			.then((data) => {
@@ -58,11 +58,11 @@ const App = (props) => {
 					})
 				);
 			});
-	};
+	}, [pollId]);
 
 	useEffect(() => {
-		fetchPollData(pollId);
-	}, []);
+		fetchPollData();
+	}, [fetchPollData]);
 
 	const displayName = App.name;
 
@@ -132,14 +132,14 @@ const App = (props) => {
 				Teilnehmer:
 			</h3>
 			<div className="participants">
-				{participants.map((participant) => (
-					<>
+				{participants.map((participant, index) => (
+					<React.Fragment key={index}>
 						<button className="editCircle">
-							<img src={edit} />
+							<img src={edit} alt="Edit Button" />
 						</button>
 						<NameCircle name={participant} hue={Math.random() * 359} />
 						<div className="participantName">{participant}</div>
-					</>
+					</React.Fragment>
 				))}
 			</div>
 		</div>
