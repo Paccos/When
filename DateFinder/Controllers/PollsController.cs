@@ -13,50 +13,49 @@ namespace DateFinder.Controllers
     [ApiController]
     public class PollsController : ControllerBase
     {
-        private readonly UserSelectionContext _context;
+        private readonly PollContext _context;
 
-        public PollsController(UserSelectionContext context)
+        public PollsController(PollContext context)
         {
             _context = context;
         }
 
         // GET: api/Polls/5
         [HttpGet("{id}")]
-        public async Task<IEnumerable<UserSelection>> GetUserSelectionsAsync(int id)
+        public async Task<ActionResult<Poll>> GetPollAsync(Guid id)
         {
-            Console.WriteLine(id);
+            var poll = await _context.Polls.FindAsync(id);
 
-            var list = await _context.UserSelections.ToListAsync();
+            return poll == null ? NotFound() : (ActionResult<Poll>)poll;
+        }
 
-            if (list.Count == 0)
-            {
-                var selection = new UserSelection
-                {
-                    Name = "Max Mustermann",
-                    DateSelections = new List<DateSelection> {
-                        new DateSelection { Date = new DateTime(2020, 8, 20), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 21), State = SelectionState.No },
-                        new DateSelection { Date = new DateTime(2020, 8, 22), State = SelectionState.Maybe },
-                        new DateSelection { Date = new DateTime(2020, 8, 24), State = SelectionState.Yes },
-                        new DateSelection { Date = new DateTime(2020, 8, 26), State = SelectionState.No },
-                        new DateSelection { Date = new DateTime(2020, 8, 28), State = SelectionState.Maybe },
-                    }
-                };
+        // POST: api/Polls
+        [HttpPost]
+        public async Task<ActionResult<Poll>> PostPoll(Poll poll)
+        {
+            _context.Polls.Add(poll);
+            await _context.SaveChangesAsync();
 
-                await PostDateSelectionAsync(id, selection);
-            }
-
-            return await _context.UserSelections.ToListAsync();
+            return CreatedAtAction(nameof(GetPollAsync), new { id = poll.Id }, poll);
         }
 
         // POST: api/Polls/5
         [HttpPost("{id}")]
-        public async Task<ActionResult<UserSelection>> PostDateSelectionAsync(int id, UserSelection selection)
+        public async Task<ActionResult<UserSelection>> PostDateSelectionAsync(Guid id, UserSelection selection)
         {
-            _context.UserSelections.Add(selection);
+            var poll = await _context.Polls.FindAsync(id);
+
+            if (poll == null)
+            {
+                return NotFound();
+            }
+
+            poll.UserSelections.Add(selection);
+
+            _context.Entry(poll).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUserSelectionsAsync), new { id = selection.Id }, selection);
+            return CreatedAtAction(nameof(GetPollAsync), new { id = id }, selection);
         }
 
         // PUT: api/Polls/5

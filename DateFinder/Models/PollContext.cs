@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DateFinder.Models
 {
-    public class UserSelectionContext : DbContext
+    public class PollContext : DbContext
     {
-        public UserSelectionContext(DbContextOptions<UserSelectionContext> options) : base(options)
+        public PollContext(DbContextOptions<PollContext> options) : base(options)
         {
         }
 
+        public DbSet<Poll> Polls { get; set; }
         public DbSet<UserSelection> UserSelections { get; set; }
     }
 }

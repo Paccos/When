@@ -36,9 +36,13 @@ const App = (props) => {
 		fetch(`api/polls/${pollId}`)
 			.then((response) => response.json())
 			.then((data) => {
-				setParticipants(data.map((d) => d.name));
+				const userSelections = data.userSelections;
 
-				const datesWithParticipants = extractedDatesWithParticipants(data);
+				setParticipants(userSelections.map((d) => d.name));
+
+				const datesWithParticipants = extractedDatesWithParticipants(
+					userSelections
+				);
 
 				setUserSelections(
 					Object.keys(datesWithParticipants).map((date) => {
