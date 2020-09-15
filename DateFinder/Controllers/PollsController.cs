@@ -26,7 +26,14 @@ namespace DateFinder.Controllers
         {
             var poll = await _context.Polls.FindAsync(id);
 
-            return poll == null ? NotFound() : (ActionResult<Poll>)poll;
+            if (poll == null)
+            {
+                return NotFound();
+            }
+
+            await _context.Entry(poll).Collection(p => p.UserSelections).LoadAsync();
+
+            return poll;
         }
 
         // POST: api/Polls
