@@ -57,6 +57,7 @@ namespace DateFinder.Controllers
                 return NotFound();
             }
 
+            await _context.Entry(poll).Collection(p => p.UserSelections).LoadAsync();
             poll.UserSelections.Add(selection);
 
             _context.Entry(poll).State = EntityState.Modified;
