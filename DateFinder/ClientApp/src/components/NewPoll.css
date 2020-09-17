@@ -1,0 +1,84 @@
+.formFields {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	align-items: center;
+	row-gap: 24px;
+	column-gap: 16px;
+	margin-top: 24px;
+}
+
+label {
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 22px;
+}
+
+.formFields label {
+	justify-self: end;
+}
+
+.chooseDays {
+	margin-top: 48px;
+	display: grid;
+	grid-template-columns: 1fr 2fr 1fr;
+	align-items: center;
+	row-gap: 24px;
+	column-gap: 16px;
+}
+
+#chooseDaysTitle {
+	grid-column: 2;
+}
+
+#chosenDaysCounter {
+	color: #129f00;
+	grid-column: 1;
+}
+
+.calendar {
+	background-color: red;
+	width: 100%;
+	height: 300px;
+	grid-column: 2;
+}
+
+.submitButton {
+	grid-row: 3;
+	grid-column: 3;
+	justify-self: end;
+}
+
+@media (max-width: 680px) {
+	.formFields {
+		grid-template-columns: 1fr;
+		align-items: stretch;
+		row-gap: 16px;
+	}
+
+	.formFields input {
+		width: 100%;
+	}
+
+	.formFields label {
+		justify-self: start;
+	}
+
+	.chooseDays {
+		grid-template-columns: 1fr;
+	}
+
+	#chooseDaysTitle,
+	#chooseDaysCounter,
+	.calendar,
+	.submitButton {
+		grid-column: 1;
+	}
+
+	#chooseDaysCounter {
+		grid-row: end;
+	}
+
+	.submitButton {
+		grid-row: 4;
+		justify-self: center;
+	}
+}
