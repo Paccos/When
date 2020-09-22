@@ -40,6 +40,9 @@ namespace DateFinder.Controllers
         [HttpPost]
         public async Task<ActionResult<Poll>> PostPoll(Poll poll)
         {
+            var userSelection = poll.UserSelections.First();
+            userSelection.DateSelections = userSelection.DateSelections.OrderBy(ds => ds.Date).ToList();
+
             _context.Polls.Add(poll);
             await _context.SaveChangesAsync();
 
