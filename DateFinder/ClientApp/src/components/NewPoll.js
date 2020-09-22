@@ -9,6 +9,12 @@ import 'react-day-picker/lib/style.css';
 import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/de';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import { CopyableComponent } from './CopyableComponent';
+
+const SwalWReact = withReactContent(Swal);
+
 export const NewPoll = (props) => {
 	const [authorName, setAuthorName] = useState('');
 	const [pollTitle, setPollTitle] = useState('');
@@ -26,6 +32,33 @@ export const NewPoll = (props) => {
 		else selection.splice(selectionIndex, 1);
 
 		setSelectedDays(selection);
+	};
+
+	const showSuccessDialog = (pollId) => {
+		const url = `https://localhost:5001/${pollId}`;
+
+		SwalWReact.fire({
+			icon: 'success',
+			title: 'Deine Umfrage wurde erstellt!',
+			html: (
+				<div className="dialogText">
+					Du kannst Deine Umfrage mit diesem Link teilen (zum Kopieren klicken):
+					<CopyableComponent text={url}>
+						<p className="pollLink">{url}</p>
+					</CopyableComponent>
+					<SubmitButton
+						submitHandler={() => {
+							history.push(`/${pollId}`);
+							Swal.clickConfirm();
+						}}
+					/>
+				</div>
+			),
+			showConfirmButton: false,
+			allowOutsideClick: false,
+			allowEscapeKey: false,
+			width: '80%',
+		});
 	};
 
 	const postPoll = () => {
@@ -55,7 +88,7 @@ export const NewPoll = (props) => {
 
 				const pollId = data.id;
 
-				history.push(`/${pollId}`);
+				showSuccessDialog(pollId);
 			});
 	};
 
