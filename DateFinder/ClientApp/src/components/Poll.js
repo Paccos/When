@@ -164,7 +164,7 @@ export const Poll = (props) => {
 						<button className="editCircle">
 							<img src={edit} alt="Edit Button" />
 						</button>
-						<NameCircle name={participant} hue={Math.random() * 359} />
+						<NameCircle name={participant} stacked={false} />
 						<div className="participantName">{participant}</div>
 					</React.Fragment>
 				))}

@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
+
 import './DateView.css';
 import checkmark from '../images/Checkmark.png';
 import cross from '../images/Cross.png';
@@ -31,7 +33,12 @@ export const NameCircle = (props) => {
 		stacked ? 'stackedCircle' : ''
 	}`;
 
-	return <div className={classes}>{initials}</div>;
+	return (
+		<div className={classes} data-tip={stacked ? props.name : ''}>
+			{initials}
+			{stacked && <ReactTooltip place="top" type="dark" effect="solid" />}
+		</div>
+	);
 };
 
 const NamesBar = (props) => {
