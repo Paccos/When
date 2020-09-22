@@ -18,7 +18,9 @@ export const Poll = (props) => {
 	const [participants, setParticipants] = useState([]);
 	const [namesAndStates, setNamesAndStates] = useState([]);
 	const [userSelections, setUserSelections] = useState([]);
+
 	const [username, setUsername] = useState('');
+	const [usernameEmptyError, setUsernameEmptyError] = useState(false);
 
 	const extractedDatesWithParticipants = (userSelections) => {
 		let result = {};
@@ -110,6 +112,13 @@ export const Poll = (props) => {
 	};
 
 	const postUserSelection = (userSelections) => {
+		if (!username || username.trim() === '') {
+			setUsernameEmptyError(true);
+			return;
+		}
+
+		setUsernameEmptyError(false);
+
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
@@ -144,6 +153,7 @@ export const Poll = (props) => {
 				<h1 className="title">{pollTitle}</h1>
 				<h3 className="subtitle">Umfrage von {pollAuthor}</h3>
 				<input
+					className={usernameEmptyError ? 'error' : ''}
 					type="text"
 					placeholder="Dein Name"
 					onChange={(e) => setUsername(e.target.value)}

@@ -51,6 +51,15 @@ input[type='text'] {
 	width: 80%;
 }
 
+input[type='text'].error {
+	border-color: red;
+	border-width: 2px;
+}
+
+input[type='text'].error::placeholder {
+	color: red;
+}
+
 #participantHeading {
 	margin: 16px 0;
 	text-align: left;
