@@ -47,7 +47,12 @@ export const Poll = (props) => {
 
 				const userSelections = data.userSelections;
 
-				setParticipants(userSelections.map((d) => d.name));
+				setParticipants(
+					userSelections.map((d) => ({
+						name: d.name,
+						id: d.id,
+					}))
+				);
 
 				const datesWithParticipants = extractedDatesWithParticipants(
 					userSelections
@@ -161,11 +166,14 @@ export const Poll = (props) => {
 			<div className="participants">
 				{participants.map((participant, index) => (
 					<React.Fragment key={index}>
-						<button className="editCircle">
+						<button
+							className="editCircle"
+							onClick={() => console.log(participant.id)}
+						>
 							<img src={edit} alt="Edit Button" />
 						</button>
-						<NameCircle name={participant} stacked={false} />
-						<div className="participantName">{participant}</div>
+						<NameCircle name={participant.name} stacked={false} />
+						<div className="participantName">{participant.name}</div>
 					</React.Fragment>
 				))}
 			</div>
