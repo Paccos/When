@@ -4,6 +4,11 @@ import DateGrid, { NameCircle, ToggleButton } from './DateGrid';
 import SubmitButton from './SubmitButton';
 import edit from '../images/Edit.png';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const SwalWReact = withReactContent(Swal);
+
 export const Poll = (props) => {
 	const { pollId } = useParams();
 
@@ -111,7 +116,21 @@ export const Poll = (props) => {
 		fetch(`api/polls/${pollId}`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => console.log(data))
-			.then(() => fetchPollData(pollId));
+			.then(() =>
+				SwalWReact.fire({
+					icon: 'success',
+					title: `Vielen Dank für Deine Teilnahme, ${username}!`,
+					html: (
+						<SubmitButton
+							submitHandler={() => {
+								Swal.clickConfirm();
+							}}
+						/>
+					),
+					showConfirmButton: false,
+				})
+			)
+			.then(() => fetchPollData());
 	};
 
 	return (
