@@ -115,7 +115,7 @@ export const Poll = (props) => {
 		});
 	};
 
-	const postUserSelection = (userSelections) => {
+	const postUserSelection = (username, userSelections) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
 			return;
@@ -138,6 +138,48 @@ export const Poll = (props) => {
 				SwalWReact.fire({
 					icon: 'success',
 					title: `Vielen Dank für Deine Teilnahme, ${username}!`,
+					html: (
+						<SubmitButton
+							submitHandler={() => {
+								Swal.clickConfirm();
+							}}
+						/>
+					),
+					showConfirmButton: false,
+				})
+			)
+			.then(() => fetchPollData());
+	};
+
+	const putUserSelection = (id, username, userSelections) => {
+		if (!username || username.trim() === '') {
+			setUsernameEmptyError(true);
+			return;
+		}
+
+		setUsernameEmptyError(false);
+
+		const requestOptions = {
+			method: 'PUT',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				id: id,
+				name: username,
+				dateSelections: userSelections,
+				pollId: pollId,
+			}),
+		};
+
+		console.log(id);
+		console.log(requestOptions.body);
+
+		fetch(`api/polls/${id}`, requestOptions)
+			.then((response) => console.log(response))
+			.then((data) => console.log(data))
+			.then(() =>
+				SwalWReact.fire({
+					icon: 'success',
+					title: `Deine Änderungen wurden erfolgreich gespeichert, ${username}!`,
 					html: (
 						<SubmitButton
 							submitHandler={() => {
@@ -224,7 +266,13 @@ export const Poll = (props) => {
 						/>
 					)}
 					<SubmitButton
-						submitHandler={() => postUserSelection(userSelections)}
+						submitHandler={() => {
+							if (!idToEdit || idToEdit.trim() === '') {
+								postUserSelection(username, userSelections);
+							} else {
+								putUserSelection(idToEdit, username, userSelections);
+							}
+						}}
 					/>
 				</div>
 			</div>
