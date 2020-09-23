@@ -22,6 +22,8 @@ export const Poll = (props) => {
 	const [username, setUsername] = useState('');
 	const [usernameEmptyError, setUsernameEmptyError] = useState(false);
 
+	const [idToEdit, setIdToEdit] = useState('');
+
 	const extractedDatesWithParticipants = (userSelections) => {
 		let result = {};
 
@@ -31,6 +33,7 @@ export const Poll = (props) => {
 				if (dateSelection.state === ToggleButton.buttonStates.no) return;
 
 				result[dateSelection.date].push({
+					id: userSelection.id,
 					name: userSelection.name,
 					maybe: dateSelection.state === ToggleButton.buttonStates.maybe,
 				});
@@ -147,6 +150,41 @@ export const Poll = (props) => {
 			.then(() => fetchPollData());
 	};
 
+	const namesAndStatesWithoutId = (id) =>
+		namesAndStates.map((dns) => ({
+			date: dns.date,
+			entries: dns.entries.filter((entry) => entry.id !== id),
+		}));
+
+	const selectionsForId = (id) =>
+		userSelections.map((s) => {
+			const namesAndStateForDate = namesAndStates.find(
+				(nns) => nns.date === s.date
+			);
+
+			if (!namesAndStateForDate)
+				return { date: s.date, state: ToggleButton.buttonStates.no };
+
+			const entryForId = namesAndStateForDate.entries.find((e) => e.id === id);
+
+			let state = ToggleButton.buttonStates.yes;
+
+			if (!entryForId) {
+				state = ToggleButton.buttonStates.no;
+			} else if (entryForId.maybe) {
+				state = ToggleButton.buttonStates.maybe;
+			}
+
+			return { date: s.date, state: state };
+		});
+
+	const handleEditAction = (id) => {
+		window.scrollTo(0, 0);
+		setIdToEdit(id);
+		setUsername(participants.find((p) => p.id === id).name);
+		setUserSelections(selectionsForId(id));
+	};
+
 	return (
 		<div className="main">
 			<div className="titleHeading">
@@ -157,12 +195,13 @@ export const Poll = (props) => {
 					type="text"
 					placeholder="Dein Name"
 					onChange={(e) => setUsername(e.target.value)}
+					value={username}
 				></input>
 			</div>
 			<div className="resultsAndSubmit">
 				<DateGrid
 					entries={entriesIncludingUserSelections(
-						namesAndStates,
+						namesAndStatesWithoutId(idToEdit),
 						userSelections
 					)}
 					userSelections={userSelections}
@@ -178,7 +217,7 @@ export const Poll = (props) => {
 					<React.Fragment key={index}>
 						<button
 							className="editCircle"
-							onClick={() => console.log(participant.id)}
+							onClick={() => handleEditAction(participant.id)}
 						>
 							<img src={edit} alt="Edit Button" />
 						</button>
