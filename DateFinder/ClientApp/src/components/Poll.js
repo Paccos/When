@@ -48,6 +48,7 @@ export const Poll = (props) => {
 		fetch(`api/polls/${pollId}`)
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				setPollTitle(data.title);
 				setPollAuthor(data.author);
 
@@ -190,7 +191,10 @@ export const Poll = (props) => {
 					showConfirmButton: false,
 				})
 			)
-			.then(() => fetchPollData());
+			.then(() => {
+				setIdToEdit('');
+				fetchPollData();
+			});
 	};
 
 	const namesAndStatesWithoutId = (id) =>

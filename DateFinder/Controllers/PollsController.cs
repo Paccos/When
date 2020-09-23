@@ -71,14 +71,49 @@ namespace DateFinder.Controllers
 
         // PUT: api/Polls/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> PutDateSelection(Guid id, UserSelection selection)
         {
+
+            if (id != selection.Id)
+            {
+                return BadRequest();
+            }
+
+            var selectionToUpdate = await _context.UserSelections.FirstOrDefaultAsync(us => us.Id == selection.Id);
+
+            if (selectionToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            // TODO Somehow the edited dates become unsorted
+            selectionToUpdate.DateSelections = selection.DateSelections.OrderBy(ds => ds.Date).ToList();
+            selectionToUpdate.Name = selection.Name;
+
+            _context.Entry(selectionToUpdate).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserSelectionExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        private bool UserSelectionExists(Guid id)
         {
+            return _context.UserSelections.Any(e => e.Id == id);
         }
     }
 }
