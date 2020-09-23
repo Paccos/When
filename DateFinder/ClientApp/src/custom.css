@@ -41,6 +41,12 @@ h3.subtitle {
 	align-items: flex-end;
 }
 
+.submitAndAbort {
+	display: flex;
+	min-width: 136px;
+	justify-content: space-between;
+}
+
 input[type='text'] {
 	border-radius: 8px;
 	border-color: #afafaf;
@@ -98,6 +104,10 @@ input[type='text'].error::placeholder {
 @media (max-width: 740px) {
 	.resultsAndSubmit {
 		align-items: initial;
+		flex-direction: column;
+	}
+
+	.submitAndAbort {
 		flex-direction: column;
 	}
 }

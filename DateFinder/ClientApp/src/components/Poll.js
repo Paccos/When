@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import DateGrid, { NameCircle, ToggleButton } from './DateGrid';
 import SubmitButton from './SubmitButton';
 import edit from '../images/Edit.png';
+import cross from '../images/Cross.png';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -181,7 +182,13 @@ export const Poll = (props) => {
 	const handleEditAction = (id) => {
 		window.scrollTo(0, 0);
 		setIdToEdit(id);
-		setUsername(participants.find((p) => p.id === id).name);
+
+		if (!id || id.trim() === '') {
+			setUsername('');
+		} else {
+			setUsername(participants.find((p) => p.id === id).name);
+		}
+
 		setUserSelections(selectionsForId(id));
 	};
 
@@ -207,7 +214,19 @@ export const Poll = (props) => {
 					userSelections={userSelections}
 					handleUserSelection={handleUserSelection}
 				/>
-				<SubmitButton submitHandler={() => postUserSelection(userSelections)} />
+				<div className="submitAndAbort">
+					{idToEdit.trim() !== '' && (
+						<SubmitButton
+							img={cross}
+							alt="Abort"
+							id="abortEditButton"
+							submitHandler={() => handleEditAction('')}
+						/>
+					)}
+					<SubmitButton
+						submitHandler={() => postUserSelection(userSelections)}
+					/>
+				</div>
 			</div>
 			<h3 id="participantHeading" className="subtitle">
 				Teilnehmer:
