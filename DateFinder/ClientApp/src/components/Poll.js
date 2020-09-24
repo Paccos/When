@@ -286,12 +286,16 @@ export const Poll = (props) => {
 			<div className="participants">
 				{participants.map((participant, index) => (
 					<React.Fragment key={index}>
-						<button
-							className="editCircle"
-							onClick={() => handleEditAction(participant.id)}
-						>
-							<img src={edit} alt="Edit Button" />
-						</button>
+						{participant.id === idToEdit ? (
+							<SubmitButton img={cross} alt="Delete" color="red" />
+						) : (
+							<button
+								className="editCircle"
+								onClick={() => handleEditAction(participant.id)}
+							>
+								<img src={edit} alt="Edit Button" />
+							</button>
+						)}
 						<NameCircle name={participant.name} stacked={false} />
 						<div className="participantName">{participant.name}</div>
 					</React.Fragment>

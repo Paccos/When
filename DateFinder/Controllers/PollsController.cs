@@ -33,6 +33,8 @@ namespace DateFinder.Controllers
 
             await _context.Entry(poll).Collection(p => p.UserSelections).LoadAsync();
 
+            poll.UserSelections.ForEach(us => us.DateSelections = us.DateSelections.OrderBy(ds => ds.Date).ToList());
+
             return poll;
         }
 
@@ -85,8 +87,7 @@ namespace DateFinder.Controllers
             {
                 return NotFound();
             }
-
-            // TODO Somehow the edited dates become unsorted
+            
             selectionToUpdate.DateSelections = selection.DateSelections.OrderBy(ds => ds.Date).ToList();
             selectionToUpdate.Name = selection.Name;
 
