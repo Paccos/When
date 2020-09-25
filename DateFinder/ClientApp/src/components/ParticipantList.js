@@ -15,30 +15,6 @@ const SwalWReact = withReactContent(Swal);
 export const ParticipantList = (props) => {
 	const participants = props.participants;
 
-	const deleteUserSelection = async (id) => {
-		const requestOptions = {
-			method: 'DELETE',
-		};
-
-		await fetch(`api/userSelections/${id}`, requestOptions);
-
-		await SwalWReact.fire({
-			icon: 'success',
-			title: 'Der Eintrag wurde gelöscht!',
-			html: (
-				<SubmitButton
-					submitHandler={() => {
-						Swal.clickConfirm();
-					}}
-				/>
-			),
-			showConfirmButton: false,
-		});
-
-		props.handleEditAction('');
-		props.refresh();
-	};
-
 	const handleDeleteAction = async (id) => {
 		const result = await SwalWReact.fire({
 			icon: 'warning',
@@ -67,7 +43,7 @@ export const ParticipantList = (props) => {
 		});
 
 		if (result.isConfirmed) {
-			deleteUserSelection(id);
+			props.deleteUserSelection(id);
 		}
 	};
 
