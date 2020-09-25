@@ -79,8 +79,6 @@ export const NewPoll = (props) => {
 			body: JSON.stringify(poll),
 		};
 
-		console.log(requestOptions.body);
-
 		const response = await fetch('api/polls', requestOptions);
 		const data = await response.json();
 

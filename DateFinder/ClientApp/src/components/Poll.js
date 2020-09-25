@@ -12,6 +12,10 @@ import withReactContent from 'sweetalert2-react-content';
 const SwalWReact = withReactContent(Swal);
 
 export const Poll = (props) => {
+	/* States / Properties */
+
+	const displayName = Poll.name;
+
 	const { pollId } = useParams();
 
 	const [pollTitle, setPollTitle] = useState('');
@@ -25,6 +29,8 @@ export const Poll = (props) => {
 	const [usernameEmptyError, setUsernameEmptyError] = useState(false);
 
 	const [idToEdit, setIdToEdit] = useState('');
+
+	/* Data manipulation, information retrieval */
 
 	const extractedDatesWithParticipants = (userSelections) => {
 		let result = {};
@@ -45,11 +51,57 @@ export const Poll = (props) => {
 		return result;
 	};
 
+	const entriesIncludingUserSelections = (entries, userSelections) =>
+		entries.map((e) => {
+			const selection = userSelections.find((u) => u.date === e.date);
+
+			if (selection.state === ToggleButton.buttonStates.no) return e;
+			else if (selection.state === ToggleButton.buttonStates.maybe)
+				return {
+					date: e.date,
+					entries: [...e.entries, { name: username, maybe: true }],
+				};
+			else
+				return {
+					date: e.date,
+					entries: [{ name: username, maybe: false }, ...e.entries],
+				};
+		});
+
+	const namesAndStatesWithoutId = (id) =>
+		namesAndStates.map((dns) => ({
+			date: dns.date,
+			entries: dns.entries.filter((entry) => entry.id !== id),
+		}));
+
+	const selectionsForId = (id) =>
+		userSelections.map((s) => {
+			const namesAndStateForDate = namesAndStates.find(
+				(nns) => nns.date === s.date
+			);
+
+			if (!namesAndStateForDate)
+				return { date: s.date, state: ToggleButton.buttonStates.no };
+
+			const entryForId = namesAndStateForDate.entries.find((e) => e.id === id);
+
+			let state = ToggleButton.buttonStates.yes;
+
+			if (!entryForId) {
+				state = ToggleButton.buttonStates.no;
+			} else if (entryForId.maybe) {
+				state = ToggleButton.buttonStates.maybe;
+			}
+
+			return { date: s.date, state: state };
+		});
+
+	/* CRUD operations */
+
 	const fetchPollData = useCallback(async () => {
 		const response = await fetch(`api/polls/${pollId}`);
 		const data = await response.json();
 
-		console.log(data);
 		setPollTitle(data.title);
 		setPollAuthor(data.author);
 
@@ -85,36 +137,6 @@ export const Poll = (props) => {
 		);
 	}, [pollId]);
 
-	useEffect(() => {
-		fetchPollData();
-	}, [fetchPollData]);
-
-	const displayName = Poll.name;
-
-	const handleUserSelection = (date, state) => {
-		let selections = userSelections.slice();
-		selections.find((s) => s.date === date).state = state;
-
-		setUserSelections(selections);
-	};
-
-	const entriesIncludingUserSelections = (entries, userSelections) =>
-		entries.map((e) => {
-			const selection = userSelections.find((u) => u.date === e.date);
-
-			if (selection.state === ToggleButton.buttonStates.no) return e;
-			else if (selection.state === ToggleButton.buttonStates.maybe)
-				return {
-					date: e.date,
-					entries: [...e.entries, { name: username, maybe: true }],
-				};
-			else
-				return {
-					date: e.date,
-					entries: [{ name: username, maybe: false }, ...e.entries],
-				};
-		});
-
 	const postUserSelection = async (username, userSelections) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
@@ -132,8 +154,6 @@ export const Poll = (props) => {
 				pollId: pollId,
 			}),
 		};
-
-		console.log(requestOptions.body);
 
 		await fetch(`api/userSelections`, requestOptions);
 
@@ -171,9 +191,6 @@ export const Poll = (props) => {
 				pollId: pollId,
 			}),
 		};
-
-		console.log(id);
-		console.log(requestOptions.body);
 
 		await fetch(`api/userSelections/${id}`, requestOptions);
 
@@ -218,33 +235,14 @@ export const Poll = (props) => {
 		fetchPollData();
 	};
 
-	const namesAndStatesWithoutId = (id) =>
-		namesAndStates.map((dns) => ({
-			date: dns.date,
-			entries: dns.entries.filter((entry) => entry.id !== id),
-		}));
+	/* UI Actions */
 
-	const selectionsForId = (id) =>
-		userSelections.map((s) => {
-			const namesAndStateForDate = namesAndStates.find(
-				(nns) => nns.date === s.date
-			);
+	const handleUserSelection = (date, state) => {
+		let selections = userSelections.slice();
+		selections.find((s) => s.date === date).state = state;
 
-			if (!namesAndStateForDate)
-				return { date: s.date, state: ToggleButton.buttonStates.no };
-
-			const entryForId = namesAndStateForDate.entries.find((e) => e.id === id);
-
-			let state = ToggleButton.buttonStates.yes;
-
-			if (!entryForId) {
-				state = ToggleButton.buttonStates.no;
-			} else if (entryForId.maybe) {
-				state = ToggleButton.buttonStates.maybe;
-			}
-
-			return { date: s.date, state: state };
-		});
+		setUserSelections(selections);
+	};
 
 	const handleEditAction = (id) => {
 		window.scrollTo(0, 0);
@@ -290,6 +288,14 @@ export const Poll = (props) => {
 			deleteUserSelection(id);
 		}
 	};
+
+	/* Lifecycle */
+
+	useEffect(() => {
+		fetchPollData();
+	}, [fetchPollData]);
+
+	/* UI */
 
 	return (
 		<div className="main">
