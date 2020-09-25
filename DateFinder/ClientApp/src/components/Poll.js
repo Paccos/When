@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import DateGrid, { NameCircle, ToggleButton } from './DateGrid';
-import SubmitButton from './SubmitButton';
-import check from '../images/Checkmark.png';
-import edit from '../images/Edit.png';
-import cross from '../images/Cross.png';
-
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+
+import DateGrid, { ToggleButton } from './DateGrid';
+import { ParticipantList } from './ParticipantList';
+import SubmitButton from './SubmitButton';
+
+import cross from '../images/Cross.png';
 
 const SwalWReact = withReactContent(Swal);
 
@@ -211,30 +211,6 @@ export const Poll = (props) => {
 		fetchPollData();
 	};
 
-	const deleteUserSelection = async (id) => {
-		const requestOptions = {
-			method: 'DELETE',
-		};
-
-		await fetch(`api/userSelections/${id}`, requestOptions);
-
-		await SwalWReact.fire({
-			icon: 'success',
-			title: 'Der Eintrag wurde gelöscht!',
-			html: (
-				<SubmitButton
-					submitHandler={() => {
-						Swal.clickConfirm();
-					}}
-				/>
-			),
-			showConfirmButton: false,
-		});
-
-		handleEditAction('');
-		fetchPollData();
-	};
-
 	/* UI Actions */
 
 	const handleUserSelection = (date, state) => {
@@ -255,38 +231,6 @@ export const Poll = (props) => {
 		}
 
 		setUserSelections(selectionsForId(id));
-	};
-
-	const handleDeleteAction = async (id) => {
-		const result = await SwalWReact.fire({
-			icon: 'warning',
-			title: `Löschen bestätigen`,
-			html: (
-				<div>
-					<p>Bist Du sicher, dass Du Deinen Eintrag löschen möchtest?</p>
-					<div className="submitAndAbort">
-						<SubmitButton
-							img={check}
-							alt="Confirm Delete"
-							color="red"
-							submitHandler={() => {
-								Swal.clickConfirm();
-							}}
-						/>
-						<SubmitButton
-							img={cross}
-							alt="Cancel"
-							submitHandler={() => Swal.clickCancel()}
-						/>
-					</div>
-				</div>
-			),
-			showConfirmButton: false,
-		});
-
-		if (result.isConfirmed) {
-			deleteUserSelection(id);
-		}
 	};
 
 	/* Lifecycle */
@@ -342,30 +286,12 @@ export const Poll = (props) => {
 			<h3 id="participantHeading" className="subtitle">
 				Teilnehmer:
 			</h3>
-			<div className="participants">
-				{participants.map((participant, index) => (
-					<React.Fragment key={index}>
-						{participant.id === idToEdit ? (
-							<SubmitButton
-								img={cross}
-								alt="Delete"
-								color="red"
-								id="deleteCircle"
-								submitHandler={() => handleDeleteAction(participant.id)}
-							/>
-						) : (
-							<button
-								className="editCircle"
-								onClick={() => handleEditAction(participant.id)}
-							>
-								<img src={edit} alt="Edit Button" />
-							</button>
-						)}
-						<NameCircle name={participant.name} stacked={false} />
-						<div className="participantName">{participant.name}</div>
-					</React.Fragment>
-				))}
-			</div>
+			<ParticipantList
+				participants={participants}
+				handleEditAction={handleEditAction}
+				idToEdit={idToEdit}
+				refresh={fetchPollData}
+			/>
 		</div>
 	);
 };
