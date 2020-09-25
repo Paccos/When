@@ -128,12 +128,16 @@ export const Poll = (props) => {
 		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({ name: username, dateSelections: userSelections }),
+			body: JSON.stringify({
+				name: username,
+				dateSelections: userSelections,
+				pollId: pollId,
+			}),
 		};
 
 		console.log(requestOptions.body);
 
-		fetch(`api/polls/${pollId}`, requestOptions)
+		fetch(`api/userSelections`, requestOptions)
 			.then((response) => response.json())
 			.then((data) => console.log(data))
 			.then(() =>
@@ -175,7 +179,7 @@ export const Poll = (props) => {
 		console.log(id);
 		console.log(requestOptions.body);
 
-		fetch(`api/polls/${id}`, requestOptions)
+		fetch(`api/userSelections/${id}`, requestOptions)
 			.then((response) => console.log(response))
 			.then((data) => console.log(data))
 			.then(() =>
@@ -203,7 +207,7 @@ export const Poll = (props) => {
 			method: 'DELETE',
 		};
 
-		fetch(`api/polls/${id}`, requestOptions)
+		fetch(`api/userSelections/${id}`, requestOptions)
 			.then((response) => console.log(response))
 			.then((data) => console.log(data))
 			.then(() =>
