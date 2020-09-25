@@ -13,10 +13,15 @@ import { NameCircle } from './DateGrid';
 
 const SwalWReact = withReactContent(Swal);
 
-export const ParticipantList = (props) => {
+export const ParticipantList = (props: {
+	participants: [{ id: string; name: string }];
+	deleteUserSelection: (id: string) => void;
+	idToEdit: string;
+	handleEditAction: (id: string) => void;
+}) => {
 	const participants = props.participants;
 
-	const handleDeleteAction = async (id) => {
+	const handleDeleteAction = async (id: string) => {
 		const result = await SwalWReact.fire({
 			icon: 'warning',
 			title: `Löschen bestätigen`,
