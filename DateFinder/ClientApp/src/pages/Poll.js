@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import styles from './Poll.module.css';
+
 import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -278,7 +280,7 @@ export const Poll = (props) => {
 					value={username}
 				></input>
 			</div>
-			<div className="resultsAndSubmit">
+			<div className={styles.resultsAndSubmit}>
 				<DateGrid
 					entries={entriesIncludingUserSelections(
 						namesAndStatesWithoutId(idToEdit),
@@ -287,7 +289,7 @@ export const Poll = (props) => {
 					userSelections={userSelections}
 					handleUserSelection={handleUserSelection}
 				/>
-				<div className="submitAndAbort">
+				<div className={styles.submitAndAbort}>
 					{idToEdit.trim() !== '' && (
 						<SubmitButton
 							img={cross}
@@ -307,7 +309,7 @@ export const Poll = (props) => {
 					/>
 				</div>
 			</div>
-			<h3 id="participantHeading" className="subtitle">
+			<h3 id={styles.participantHeading} className="subtitle">
 				Teilnehmer:
 			</h3>
 			<ParticipantList

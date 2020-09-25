@@ -23,7 +23,7 @@ export const ParticipantList = (props) => {
 			html: (
 				<div>
 					<p>Bist Du sicher, dass Du Deinen Eintrag löschen möchtest?</p>
-					<div className="submitAndAbort">
+					<div className={styles.submitAndAbort}>
 						<SubmitButton
 							img={check}
 							alt="Confirm Delete"

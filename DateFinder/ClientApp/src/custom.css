@@ -36,22 +36,6 @@ h3.subtitle {
 	margin: 48px;
 }
 
-.resultsAndSubmit {
-	display: flex;
-	align-items: flex-end;
-}
-
-.submitAndAbort {
-	display: grid;
-	min-width: 136px;
-	grid-template-columns: 60px 60px;
-	column-gap: 16px;
-}
-
-.swal2-container .submitAndAbort {
-	justify-content: space-around;
-}
-
 input[type='text'] {
 	border-radius: 8px;
 	border-color: #afafaf;
@@ -69,20 +53,6 @@ input[type='text'].error {
 
 input[type='text'].error::placeholder {
 	color: red;
-}
-
-#participantHeading {
-	margin: 16px 0;
-	text-align: left;
-	font-family: 'HelveticaNeue-Bold';
-	font-size: 28px;
-}
-
-@media (max-width: 740px) {
-	.resultsAndSubmit {
-		align-items: initial;
-		flex-direction: column;
-	}
 }
 
 @media (max-width: 480px) {

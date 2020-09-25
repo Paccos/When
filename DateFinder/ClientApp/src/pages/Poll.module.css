@@ -1,0 +1,25 @@
+.resultsAndSubmit {
+	display: flex;
+	align-items: flex-end;
+}
+
+.submitAndAbort {
+	display: grid;
+	min-width: 136px;
+	grid-template-columns: 60px 60px;
+	column-gap: 16px;
+}
+
+#participantHeading {
+	margin: 16px 0;
+	text-align: left;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 28px;
+}
+
+@media (max-width: 740px) {
+	.resultsAndSubmit {
+		align-items: initial;
+		flex-direction: column;
+	}
+}
