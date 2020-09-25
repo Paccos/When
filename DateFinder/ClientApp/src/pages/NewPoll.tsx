@@ -15,14 +15,14 @@ import { CopyableComponent } from '../components/CopyableComponent';
 
 const SwalWReact = withReactContent(Swal);
 
-export const NewPoll = (props) => {
+export const NewPoll = () => {
 	const [authorName, setAuthorName] = useState('');
 	const [pollTitle, setPollTitle] = useState('');
-	const [selectedDays, setSelectedDays] = useState([]);
+	const [selectedDays, setSelectedDays] = useState([] as Date[]);
 
 	const history = useHistory();
 
-	const onDaySelect = (day) => {
+	const onDaySelect = (day: Date) => {
 		let selection = [...selectedDays];
 		const selectionIndex = selection.findIndex((date) =>
 			DateUtils.isSameDay(date, day)
@@ -34,7 +34,7 @@ export const NewPoll = (props) => {
 		setSelectedDays(selection);
 	};
 
-	const showSuccessDialog = (pollId) => {
+	const showSuccessDialog = (pollId: string) => {
 		const url = `https://localhost:5001/${pollId}`;
 
 		SwalWReact.fire({
