@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import DateGrid, { ToggleButton } from './DateGrid';
-import { ParticipantList } from './ParticipantList';
-import SubmitButton from './SubmitButton';
+import DateGrid, { ToggleButton } from '../components/DateGrid';
+import { ParticipantList } from '../components/ParticipantList';
+import SubmitButton from '../components/SubmitButton';
 
 import cross from '../images/Cross.png';
 

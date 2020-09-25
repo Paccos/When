@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './NewPoll.css';
-import SubmitButton from './SubmitButton';
+import SubmitButton from '../components/SubmitButton';
 
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
@@ -11,7 +11,7 @@ import 'moment/locale/de';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { CopyableComponent } from './CopyableComponent';
+import { CopyableComponent } from '../components/CopyableComponent';
 
 const SwalWReact = withReactContent(Swal);
 

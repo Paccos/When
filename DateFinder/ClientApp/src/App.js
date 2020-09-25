@@ -2,9 +2,9 @@ import React from 'react';
 import { Layout } from './components/Layout';
 
 import './custom.css';
-import { Home } from './components/Home';
-import { NewPoll } from './components/NewPoll';
-import { Poll } from './components/Poll';
+import { Home } from './pages/Home';
+import { NewPoll } from './pages/NewPoll';
+import { Poll } from './pages/Poll';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 const App = (props) => {
