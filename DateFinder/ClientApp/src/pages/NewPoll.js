@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import './NewPoll.css';
+import styles from './NewPoll.module.css';
 import SubmitButton from '../components/SubmitButton';
 
 import DayPicker, { DateUtils } from 'react-day-picker';
@@ -41,10 +41,10 @@ export const NewPoll = (props) => {
 			icon: 'success',
 			title: 'Deine Umfrage wurde erstellt!',
 			html: (
-				<div className="dialogText">
+				<div className={styles.dialogText}>
 					Du kannst Deine Umfrage mit diesem Link teilen (zum Kopieren klicken):
 					<CopyableComponent text={url}>
-						<p className="pollLink">{url}</p>
+						<p className={styles.pollLink}>{url}</p>
 					</CopyableComponent>
 					<SubmitButton
 						submitHandler={() => {
@@ -91,7 +91,7 @@ export const NewPoll = (props) => {
 			<div>
 				<h1 className="title">Umfrage erstellen</h1>
 
-				<div className="formFields">
+				<div className={styles.formFields}>
 					<label>Dein Name:</label>
 					<input
 						type="text"
@@ -107,11 +107,11 @@ export const NewPoll = (props) => {
 				</div>
 			</div>
 
-			<div className="chooseDays">
-				<h3 className="subtitle" id="chooseDaysTitle">
+			<div className={styles.chooseDays}>
+				<h3 className="subtitle" id={styles.chooseDaysTitle}>
 					Tage auswählen:
 				</h3>
-				<h3 className="subtitle" id="chosenDaysCounter">
+				<h3 className="subtitle" id={styles.chosenDaysCounter}>
 					{selectedDays.length} Tage ausgewählt
 				</h3>
 				<DayPicker
@@ -119,8 +119,14 @@ export const NewPoll = (props) => {
 					locale="de"
 					selectedDays={selectedDays}
 					onDayClick={onDaySelect}
+					className={styles.DayPicker}
+					modifiers={{ all: (day) => true }}
+					modifiersStyles={{ all: { minWidth: '40px', height: '40px' } }}
 				/>
-				<SubmitButton submitHandler={() => postPoll()} />
+				<SubmitButton
+					submitHandler={() => postPoll()}
+					id={styles.submitButton}
+				/>
 			</div>
 		</div>
 	);
