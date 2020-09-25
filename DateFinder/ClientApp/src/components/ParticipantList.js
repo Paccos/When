@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './ParticipantList.module.css';
 
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -48,7 +49,7 @@ export const ParticipantList = (props) => {
 	};
 
 	return (
-		<div className="participants">
+		<div className={styles.participants}>
 			{participants.map((participant, index) => (
 				<React.Fragment key={index}>
 					{participant.id === props.idToEdit ? (
@@ -56,19 +57,19 @@ export const ParticipantList = (props) => {
 							img={cross}
 							alt="Delete"
 							color="red"
-							id="deleteCircle"
+							id={styles.deleteCircle}
 							submitHandler={() => handleDeleteAction(participant.id)}
 						/>
 					) : (
 						<button
-							className="editCircle"
+							className={styles.editCircle}
 							onClick={() => props.handleEditAction(participant.id)}
 						>
 							<img src={edit} alt="Edit Button" />
 						</button>
 					)}
 					<NameCircle name={participant.name} stacked={false} />
-					<div className="participantName">{participant.name}</div>
+					<div className={styles.participantName}>{participant.name}</div>
 				</React.Fragment>
 			))}
 		</div>

@@ -1,0 +1,31 @@
+.participants {
+	display: grid;
+	grid-template-columns: 60px 60px 1fr;
+	column-gap: 24px;
+	row-gap: 16px;
+	align-items: center;
+}
+
+.editCircle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 26px;
+	background-color: #f5f5f5;
+	min-width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	border-width: 0;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+	padding-left: 16px;
+}
+
+#deleteCircle {
+	margin-bottom: 0;
+}
+
+.participantName {
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 24px;
+}
