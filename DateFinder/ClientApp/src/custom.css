@@ -42,9 +42,14 @@ h3.subtitle {
 }
 
 .submitAndAbort {
-	display: flex;
+	display: grid;
 	min-width: 136px;
-	justify-content: space-between;
+	grid-template-columns: 60px 60px;
+	column-gap: 16px;
+}
+
+.swal2-container .submitAndAbort {
+	justify-content: space-around;
 }
 
 input[type='text'] {
@@ -96,6 +101,10 @@ input[type='text'].error::placeholder {
 	padding-left: 16px;
 }
 
+#deleteCircle {
+	margin-bottom: 0;
+}
+
 .participantName {
 	font-family: 'HelveticaNeue-Bold';
 	font-size: 24px;
@@ -104,10 +113,6 @@ input[type='text'].error::placeholder {
 @media (max-width: 740px) {
 	.resultsAndSubmit {
 		align-items: initial;
-		flex-direction: column;
-	}
-
-	.submitAndAbort {
 		flex-direction: column;
 	}
 }

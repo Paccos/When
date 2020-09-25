@@ -48,7 +48,7 @@ namespace DateFinder.Controllers
             _context.Polls.Add(poll);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPollAsync), new { id = poll.Id }, poll);
+            return CreatedAtAction(nameof(GetPollAsync), new {id = poll.Id}, poll);
         }
 
         // POST: api/Polls/5
@@ -68,14 +68,13 @@ namespace DateFinder.Controllers
             _context.Entry(poll).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPollAsync), new { id = id }, selection);
+            return CreatedAtAction(nameof(GetPollAsync), new {id = id}, selection);
         }
 
         // PUT: api/Polls/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDateSelection(Guid id, UserSelection selection)
         {
-
             if (id != selection.Id)
             {
                 return BadRequest();
@@ -87,7 +86,7 @@ namespace DateFinder.Controllers
             {
                 return NotFound();
             }
-            
+
             selectionToUpdate.DateSelections = selection.DateSelections.OrderBy(ds => ds.Date).ToList();
             selectionToUpdate.Name = selection.Name;
 
@@ -110,6 +109,21 @@ namespace DateFinder.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<UserSelection>> DeleteUserSelection(Guid id)
+        {
+            var selection = await _context.UserSelections.FindAsync(id);
+            if (selection == null)
+            {
+                return NotFound();
+            }
+
+            _context.UserSelections.Remove(selection);
+            await _context.SaveChangesAsync();
+
+            return selection;
         }
 
         private bool UserSelectionExists(Guid id)

@@ -8,6 +8,7 @@ const SubmitButton = (props) => {
 			className={styles.submitButton}
 			onClick={props.submitHandler}
 			style={{ backgroundColor: props.color }}
+			id={props.id}
 		>
 			<img
 				src={props.img ? props.img : submitArrow}

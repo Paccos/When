@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import DateGrid, { NameCircle, ToggleButton } from './DateGrid';
 import SubmitButton from './SubmitButton';
+import check from '../images/Checkmark.png';
 import edit from '../images/Edit.png';
 import cross from '../images/Cross.png';
 
@@ -192,7 +193,35 @@ export const Poll = (props) => {
 				})
 			)
 			.then(() => {
-				setIdToEdit('');
+				handleEditAction('');
+				fetchPollData();
+			});
+	};
+
+	const deleteUserSelection = (id) => {
+		const requestOptions = {
+			method: 'DELETE',
+		};
+
+		fetch(`api/polls/${id}`, requestOptions)
+			.then((response) => console.log(response))
+			.then((data) => console.log(data))
+			.then(() =>
+				SwalWReact.fire({
+					icon: 'success',
+					title: 'Der Eintrag wurde gelöscht!',
+					html: (
+						<SubmitButton
+							submitHandler={() => {
+								Swal.clickConfirm();
+							}}
+						/>
+					),
+					showConfirmButton: false,
+				})
+			)
+			.then(() => {
+				handleEditAction('');
 				fetchPollData();
 			});
 	};
@@ -236,6 +265,38 @@ export const Poll = (props) => {
 		}
 
 		setUserSelections(selectionsForId(id));
+	};
+
+	const handleDeleteAction = (id) => {
+		SwalWReact.fire({
+			icon: 'warning',
+			title: `Löschen bestätigen`,
+			html: (
+				<div>
+					<p>Bist Du sicher, dass Du Deinen Eintrag löschen möchtest?</p>
+					<div className="submitAndAbort">
+						<SubmitButton
+							img={check}
+							alt="Confirm Delete"
+							color="red"
+							submitHandler={() => {
+								Swal.clickConfirm();
+							}}
+						/>
+						<SubmitButton
+							img={cross}
+							alt="Cancel"
+							submitHandler={() => Swal.clickCancel()}
+						/>
+					</div>
+				</div>
+			),
+			showConfirmButton: false,
+		}).then((reason) => {
+			if (reason.isConfirmed) {
+				deleteUserSelection(id);
+			}
+		});
 	};
 
 	return (
@@ -287,7 +348,13 @@ export const Poll = (props) => {
 				{participants.map((participant, index) => (
 					<React.Fragment key={index}>
 						{participant.id === idToEdit ? (
-							<SubmitButton img={cross} alt="Delete" color="red" />
+							<SubmitButton
+								img={cross}
+								alt="Delete"
+								color="red"
+								id="deleteCircle"
+								submitHandler={() => handleDeleteAction(participant.id)}
+							/>
 						) : (
 							<button
 								className="editCircle"
