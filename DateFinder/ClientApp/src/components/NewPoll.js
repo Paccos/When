@@ -61,7 +61,7 @@ export const NewPoll = (props) => {
 		});
 	};
 
-	const postPoll = () => {
+	const postPoll = async () => {
 		const dateSelections = selectedDays.map((date) => ({
 			date: date,
 			state: 1,
@@ -81,15 +81,11 @@ export const NewPoll = (props) => {
 
 		console.log(requestOptions.body);
 
-		fetch('api/polls', requestOptions)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
+		const response = await fetch('api/polls', requestOptions);
+		const data = await response.json();
 
-				const pollId = data.id;
-
-				showSuccessDialog(pollId);
-			});
+		const pollId = data.id;
+		showSuccessDialog(pollId);
 	};
 
 	return (

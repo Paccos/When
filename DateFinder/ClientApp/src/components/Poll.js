@@ -45,45 +45,44 @@ export const Poll = (props) => {
 		return result;
 	};
 
-	const fetchPollData = useCallback(() => {
-		fetch(`api/polls/${pollId}`)
-			.then((response) => response.json())
-			.then((data) => {
-				console.log(data);
-				setPollTitle(data.title);
-				setPollAuthor(data.author);
+	const fetchPollData = useCallback(async () => {
+		const response = await fetch(`api/polls/${pollId}`);
+		const data = await response.json();
 
-				const userSelections = data.userSelections;
+		console.log(data);
+		setPollTitle(data.title);
+		setPollAuthor(data.author);
 
-				setParticipants(
-					userSelections.map((d) => ({
-						name: d.name,
-						id: d.id,
-					}))
-				);
+		const userSelections = data.userSelections;
 
-				const datesWithParticipants = extractedDatesWithParticipants(
-					userSelections
-				);
+		setParticipants(
+			userSelections.map((d) => ({
+				name: d.name,
+				id: d.id,
+			}))
+		);
 
-				setUserSelections(
-					Object.keys(datesWithParticipants).map((date) => {
-						return {
-							date,
-							state: ToggleButton.buttonStates.no,
-						};
-					})
-				);
+		const datesWithParticipants = extractedDatesWithParticipants(
+			userSelections
+		);
 
-				setNamesAndStates(
-					Object.entries(datesWithParticipants).map((entry) => {
-						return {
-							date: entry[0],
-							entries: entry[1].sort((a, b) => a.maybe - b.maybe),
-						};
-					})
-				);
-			});
+		setUserSelections(
+			Object.keys(datesWithParticipants).map((date) => {
+				return {
+					date,
+					state: ToggleButton.buttonStates.no,
+				};
+			})
+		);
+
+		setNamesAndStates(
+			Object.entries(datesWithParticipants).map((entry) => {
+				return {
+					date: entry[0],
+					entries: entry[1].sort((a, b) => a.maybe - b.maybe),
+				};
+			})
+		);
 	}, [pollId]);
 
 	useEffect(() => {
@@ -99,8 +98,8 @@ export const Poll = (props) => {
 		setUserSelections(selections);
 	};
 
-	const entriesIncludingUserSelections = (entries, userSelections) => {
-		return entries.map((e) => {
+	const entriesIncludingUserSelections = (entries, userSelections) =>
+		entries.map((e) => {
 			const selection = userSelections.find((u) => u.date === e.date);
 
 			if (selection.state === ToggleButton.buttonStates.no) return e;
@@ -115,9 +114,8 @@ export const Poll = (props) => {
 					entries: [{ name: username, maybe: false }, ...e.entries],
 				};
 		});
-	};
 
-	const postUserSelection = (username, userSelections) => {
+	const postUserSelection = async (username, userSelections) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
 			return;
@@ -137,27 +135,25 @@ export const Poll = (props) => {
 
 		console.log(requestOptions.body);
 
-		fetch(`api/userSelections`, requestOptions)
-			.then((response) => response.json())
-			.then((data) => console.log(data))
-			.then(() =>
-				SwalWReact.fire({
-					icon: 'success',
-					title: `Vielen Dank für Deine Teilnahme, ${username}!`,
-					html: (
-						<SubmitButton
-							submitHandler={() => {
-								Swal.clickConfirm();
-							}}
-						/>
-					),
-					showConfirmButton: false,
-				})
-			)
-			.then(() => fetchPollData());
+		await fetch(`api/userSelections`, requestOptions);
+
+		await SwalWReact.fire({
+			icon: 'success',
+			title: `Vielen Dank für Deine Teilnahme, ${username}!`,
+			html: (
+				<SubmitButton
+					submitHandler={() => {
+						Swal.clickConfirm();
+					}}
+				/>
+			),
+			showConfirmButton: false,
+		});
+
+		fetchPollData();
 	};
 
-	const putUserSelection = (id, username, userSelections) => {
+	const putUserSelection = async (id, username, userSelections) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
 			return;
@@ -179,55 +175,47 @@ export const Poll = (props) => {
 		console.log(id);
 		console.log(requestOptions.body);
 
-		fetch(`api/userSelections/${id}`, requestOptions)
-			.then((response) => console.log(response))
-			.then((data) => console.log(data))
-			.then(() =>
-				SwalWReact.fire({
-					icon: 'success',
-					title: `Deine Änderungen wurden erfolgreich gespeichert, ${username}!`,
-					html: (
-						<SubmitButton
-							submitHandler={() => {
-								Swal.clickConfirm();
-							}}
-						/>
-					),
-					showConfirmButton: false,
-				})
-			)
-			.then(() => {
-				handleEditAction('');
-				fetchPollData();
-			});
+		await fetch(`api/userSelections/${id}`, requestOptions);
+
+		await SwalWReact.fire({
+			icon: 'success',
+			title: `Deine Änderungen wurden erfolgreich gespeichert, ${username}!`,
+			html: (
+				<SubmitButton
+					submitHandler={() => {
+						Swal.clickConfirm();
+					}}
+				/>
+			),
+			showConfirmButton: false,
+		});
+
+		handleEditAction('');
+		fetchPollData();
 	};
 
-	const deleteUserSelection = (id) => {
+	const deleteUserSelection = async (id) => {
 		const requestOptions = {
 			method: 'DELETE',
 		};
 
-		fetch(`api/userSelections/${id}`, requestOptions)
-			.then((response) => console.log(response))
-			.then((data) => console.log(data))
-			.then(() =>
-				SwalWReact.fire({
-					icon: 'success',
-					title: 'Der Eintrag wurde gelöscht!',
-					html: (
-						<SubmitButton
-							submitHandler={() => {
-								Swal.clickConfirm();
-							}}
-						/>
-					),
-					showConfirmButton: false,
-				})
-			)
-			.then(() => {
-				handleEditAction('');
-				fetchPollData();
-			});
+		await fetch(`api/userSelections/${id}`, requestOptions);
+
+		await SwalWReact.fire({
+			icon: 'success',
+			title: 'Der Eintrag wurde gelöscht!',
+			html: (
+				<SubmitButton
+					submitHandler={() => {
+						Swal.clickConfirm();
+					}}
+				/>
+			),
+			showConfirmButton: false,
+		});
+
+		handleEditAction('');
+		fetchPollData();
 	};
 
 	const namesAndStatesWithoutId = (id) =>
@@ -271,8 +259,8 @@ export const Poll = (props) => {
 		setUserSelections(selectionsForId(id));
 	};
 
-	const handleDeleteAction = (id) => {
-		SwalWReact.fire({
+	const handleDeleteAction = async (id) => {
+		const result = await SwalWReact.fire({
 			icon: 'warning',
 			title: `Löschen bestätigen`,
 			html: (
@@ -296,11 +284,11 @@ export const Poll = (props) => {
 				</div>
 			),
 			showConfirmButton: false,
-		}).then((reason) => {
-			if (reason.isConfirmed) {
-				deleteUserSelection(id);
-			}
 		});
+
+		if (result.isConfirmed) {
+			deleteUserSelection(id);
+		}
 	};
 
 	return (
