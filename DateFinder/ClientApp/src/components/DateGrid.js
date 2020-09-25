@@ -134,8 +134,9 @@ const DateGrid = (props) => {
 					namesAndStates={e.entries}
 					key={index}
 					buttonState={
-						props.userSelections.find((selection) => selection.date === e.date)
-							.state
+						props.userSelections.find(
+							(selection) => selection.date.getTime() === e.date.getTime()
+						).state
 					}
 					handleButtonChange={(state) => {
 						props.handleUserSelection(e.date, state);

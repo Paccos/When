@@ -10,10 +10,29 @@ import { ParticipantList } from '../components/ParticipantList';
 import SubmitButton from '../components/SubmitButton';
 
 import cross from '../images/Cross.png';
+import { stringify } from 'querystring';
 
 const SwalWReact = withReactContent(Swal);
 
-export const Poll = (props) => {
+enum SelectionState {
+	No = 0,
+	Yes = 1,
+	Maybe = 2,
+}
+
+type DateSelection = {
+	date: Date;
+	state: SelectionState;
+};
+
+type UserSelection = {
+	id: string;
+	name: string;
+	dateSelections: DateSelection[];
+	pollId: string;
+};
+
+export const Poll = () => {
 	/* States / Properties */
 
 	const displayName = Poll.name;
@@ -23,9 +42,18 @@ export const Poll = (props) => {
 	const [pollTitle, setPollTitle] = useState('');
 	const [pollAuthor, setPollAuthor] = useState('');
 
-	const [participants, setParticipants] = useState([]);
-	const [namesAndStates, setNamesAndStates] = useState([]);
-	const [userSelections, setUserSelections] = useState([]);
+	const [participants, setParticipants] = useState(
+		[] as { id: string; name: string }[]
+	);
+	const [namesAndStates, setNamesAndStates] = useState(
+		[] as {
+			date: Date;
+			entries: { name: string; maybe: boolean; id: string }[];
+		}[]
+	);
+	const [userSelections, setUserSelections] = useState(
+		[] as { date: Date; state: SelectionState }[]
+	);
 
 	const [username, setUsername] = useState('');
 	const [usernameEmptyError, setUsernameEmptyError] = useState(false);
@@ -34,15 +62,22 @@ export const Poll = (props) => {
 
 	/* Data manipulation, information retrieval */
 
-	const extractedDatesWithParticipants = (userSelections) => {
-		let result = {};
+	const extractedDatesWithParticipants = (userSelections: UserSelection[]) => {
+		let result: {
+			[key: string]: { id: string; name: string; maybe: boolean }[];
+		} = {};
 
 		userSelections.forEach((userSelection) => {
 			userSelection.dateSelections.forEach((dateSelection) => {
-				if (!result[dateSelection.date]) result[dateSelection.date] = [];
+				if (!result[dateSelection.date + ''])
+					result[dateSelection.date + ''] = [] as {
+						id: string;
+						name: string;
+						maybe: boolean;
+					}[];
 				if (dateSelection.state === ToggleButton.buttonStates.no) return;
 
-				result[dateSelection.date].push({
+				result[dateSelection.date + ''].push({
 					id: userSelection.id,
 					name: userSelection.name,
 					maybe: dateSelection.state === ToggleButton.buttonStates.maybe,
@@ -53,33 +88,40 @@ export const Poll = (props) => {
 		return result;
 	};
 
-	const entriesIncludingUserSelections = (entries, userSelections) =>
-		entries.map((e) => {
-			const selection = userSelections.find((u) => u.date === e.date);
+	const entriesIncludingUserSelections = (
+		entries: { date: Date; entries: { name: string; maybe: boolean }[] }[],
+		userSelections: { date: Date; state: SelectionState }[]
+	) =>
+		entries
+			.map((e) => {
+				const selection = userSelections.find(
+					(u) => u.date.getTime() === e.date.getTime()
+				);
+				if (!selection) return undefined;
+				if (selection.state === ToggleButton.buttonStates.no) return e;
+				else if (selection.state === ToggleButton.buttonStates.maybe)
+					return {
+						date: e.date,
+						entries: [...e.entries, { name: username, maybe: true }],
+					};
+				else
+					return {
+						date: e.date,
+						entries: [{ name: username, maybe: false }, ...e.entries],
+					};
+			})
+			.filter((e) => e != undefined);
 
-			if (selection.state === ToggleButton.buttonStates.no) return e;
-			else if (selection.state === ToggleButton.buttonStates.maybe)
-				return {
-					date: e.date,
-					entries: [...e.entries, { name: username, maybe: true }],
-				};
-			else
-				return {
-					date: e.date,
-					entries: [{ name: username, maybe: false }, ...e.entries],
-				};
-		});
-
-	const namesAndStatesWithoutId = (id) =>
+	const namesAndStatesWithoutId = (id: string) =>
 		namesAndStates.map((dns) => ({
 			date: dns.date,
 			entries: dns.entries.filter((entry) => entry.id !== id),
 		}));
 
-	const selectionsForId = (id) =>
+	const selectionsForId = (id: string) =>
 		userSelections.map((s) => {
 			const namesAndStateForDate = namesAndStates.find(
-				(nns) => nns.date === s.date
+				(nns) => nns.date.getTime() === s.date.getTime()
 			);
 
 			if (!namesAndStateForDate)
@@ -107,7 +149,7 @@ export const Poll = (props) => {
 		setPollTitle(data.title);
 		setPollAuthor(data.author);
 
-		const userSelections = data.userSelections;
+		const userSelections: UserSelection[] = data.userSelections;
 
 		setParticipants(
 			userSelections.map((d) => ({
@@ -123,8 +165,8 @@ export const Poll = (props) => {
 		setUserSelections(
 			Object.keys(datesWithParticipants).map((date) => {
 				return {
-					date,
-					state: ToggleButton.buttonStates.no,
+					date: new Date(date),
+					state: SelectionState.No,
 				};
 			})
 		);
@@ -132,14 +174,19 @@ export const Poll = (props) => {
 		setNamesAndStates(
 			Object.entries(datesWithParticipants).map((entry) => {
 				return {
-					date: entry[0],
-					entries: entry[1].sort((a, b) => a.maybe - b.maybe),
+					date: new Date(entry[0]),
+					entries: entry[1].sort((a, b) =>
+						a.maybe === b.maybe ? 0 : a.maybe ? 1 : -1
+					),
 				};
 			})
 		);
 	}, [pollId]);
 
-	const postUserSelection = async (username, userSelections) => {
+	const postUserSelection = async (
+		username: string,
+		userSelections: { date: Date; state: SelectionState }[]
+	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
 			return;
@@ -175,7 +222,11 @@ export const Poll = (props) => {
 		fetchPollData();
 	};
 
-	const putUserSelection = async (id, username, userSelections) => {
+	const putUserSelection = async (
+		id: string,
+		username: string,
+		userSelections: { date: Date; state: SelectionState }[]
+	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
 			return;
@@ -213,7 +264,7 @@ export const Poll = (props) => {
 		fetchPollData();
 	};
 
-	const deleteUserSelection = async (id) => {
+	const deleteUserSelection = async (id: string) => {
 		const requestOptions = {
 			method: 'DELETE',
 		};
@@ -239,21 +290,28 @@ export const Poll = (props) => {
 
 	/* UI Actions */
 
-	const handleUserSelection = (date, state) => {
+	const handleUserSelection = (date: Date, state: SelectionState) => {
 		let selections = userSelections.slice();
-		selections.find((s) => s.date === date).state = state;
+		const index = selections.findIndex(
+			(s) => s.date.getTime() === date.getTime()
+		);
 
-		setUserSelections(selections);
+		if (index !== -1) {
+			selections[index].state = state;
+			setUserSelections(selections);
+		}
 	};
 
-	const handleEditAction = (id) => {
+	const handleEditAction = (id: string) => {
 		window.scrollTo(0, 0);
 		setIdToEdit(id);
 
 		if (!id || id.trim() === '') {
 			setUsername('');
 		} else {
-			setUsername(participants.find((p) => p.id === id).name);
+			const participant = participants.find((p) => p.id === id);
+
+			if (participant) setUsername(participant.name);
 		}
 
 		setUserSelections(selectionsForId(id));
@@ -317,7 +375,6 @@ export const Poll = (props) => {
 				handleEditAction={handleEditAction}
 				deleteUserSelection={deleteUserSelection}
 				idToEdit={idToEdit}
-				refresh={fetchPollData}
 			/>
 		</div>
 	);

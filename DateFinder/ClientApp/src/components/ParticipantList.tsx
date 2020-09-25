@@ -14,7 +14,7 @@ import { NameCircle } from './DateGrid';
 const SwalWReact = withReactContent(Swal);
 
 export const ParticipantList = (props: {
-	participants: [{ id: string; name: string }];
+	participants: { id: string; name: string }[];
 	deleteUserSelection: (id: string) => void;
 	idToEdit: string;
 	handleEditAction: (id: string) => void;
