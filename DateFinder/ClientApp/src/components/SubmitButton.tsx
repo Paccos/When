@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './SubmitButton.module.css';
 import submitArrow from '../images/SubmitArrow.png';
 
-const SubmitButton = (props: {
+export const SubmitButton = (props: {
 	submitHandler?: () => void;
 	color?: string;
 	id?: string;
@@ -23,5 +23,3 @@ const SubmitButton = (props: {
 		</button>
 	);
 };
-
-export default SubmitButton;

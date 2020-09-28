@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from './NewPoll.module.css';
-import SubmitButton from '../components/SubmitButton';
+import { SubmitButton } from '../components/SubmitButton';
 
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
