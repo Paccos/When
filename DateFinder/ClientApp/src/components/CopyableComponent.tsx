@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
-export const CopyableComponent = (props) => {
+export const CopyableComponent = (props: {
+	text: string;
+	children: React.ReactNode;
+}) => {
 	const [copied, setCopied] = useState(false);
 
 	return (

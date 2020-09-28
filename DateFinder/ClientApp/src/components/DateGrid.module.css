@@ -26,24 +26,6 @@
 	margin-top: 0;
 }
 
-.nameCircle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-family: 'HelveticaNeue-Bold';
-	font-size: 26px;
-	color: white;
-	background-color: #129f00;
-	min-width: 60px;
-	height: 60px;
-	border-radius: 30px;
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-}
-
-.stackedCircle {
-	margin-top: -20px;
-}
-
 .namesBar {
 	display: flex;
 	flex-direction: column-reverse;
@@ -51,10 +33,6 @@
 	width: 60px;
 	margin-top: 20px;
 	margin-bottom: 16px;
-}
-
-.maybe {
-	background-color: #ef9c00;
 }
 
 .yesCount {
@@ -74,27 +52,6 @@
 .ymCounter {
 	display: flex;
 	justify-content: center;
-}
-
-.toggleButton {
-	min-width: 60px;
-	height: 60px;
-	border-radius: 30px;
-	border-width: 0;
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
-	margin-bottom: 20px;
-}
-
-.toggleButton.yes {
-	background-color: #129f00;
-}
-
-.toggleButton.maybe {
-	background-color: #ef9c00;
-}
-
-.toggleButton.no {
-	background-color: #ef0000;
 }
 
 .dateColumn {
@@ -136,11 +93,6 @@
 		padding: 8px 0;
 	}
 
-	.stackedCircle {
-		margin-top: 0;
-		margin-left: -20px;
-	}
-
 	.date {
 		order: 1;
 		margin-bottom: 0px;
@@ -165,11 +117,6 @@
 
 	.maybeCount {
 		margin: 0;
-	}
-
-	.toggleButton {
-		margin-bottom: 0;
-		margin-right: 16px;
 	}
 }
 
