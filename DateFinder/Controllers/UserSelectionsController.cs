@@ -98,6 +98,13 @@ namespace DateFinder.Controllers
                 return NotFound();
             }
 
+            await _context.Entry(userSelection).Reference(us => us.Poll).LoadAsync();
+
+            if (userSelection.Poll.AuthorId == id)
+            {
+                return BadRequest("Selection of the poll's author cannot be deleted.");
+            }
+
             _context.UserSelections.Remove(userSelection);
             await _context.SaveChangesAsync();
 
