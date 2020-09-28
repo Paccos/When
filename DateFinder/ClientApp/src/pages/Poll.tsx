@@ -317,7 +317,10 @@ export const Poll = () => {
 	return (
 		<div className="main">
 			<div className="titleHeading">
-				<h1 className="title">{pollTitle}</h1>
+				<h1 className="title">
+					{pollTitle}
+					<p className="when">, When?</p>
+				</h1>
 				<h3 className="subtitle">Umfrage von {pollAuthor}</h3>
 				<input
 					className={usernameEmptyError ? 'error' : ''}

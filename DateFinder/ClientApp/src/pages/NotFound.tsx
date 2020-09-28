@@ -6,7 +6,7 @@ import { SubmitButton } from '../components/SubmitButton';
 import styles from './NotFound.module.css';
 import crossLarge from '../images/CrossLarge.png';
 
-export const NotFound = (props: { pollId: string }) => {
+export const NotFound = () => {
 	const history = useHistory();
 
 	return (
@@ -14,8 +14,7 @@ export const NotFound = (props: { pollId: string }) => {
 			<h1 className="title">Umfrage nicht gefunden</h1>
 			<img src={crossLarge} alt="Not found" className={styles.notFoundImage} />
 			<h3 className="subtitle">
-				Die Umfrage mit der ID {props.pollId ?? 'unknown'} wurde nicht
-				gefunden...
+				Die Umfrage mit der angegebenen ID wurde nicht gefunden...
 			</h3>
 			<h3 className="subtitle">
 				Du kannst hier eine eigene Umfrage erstellen:

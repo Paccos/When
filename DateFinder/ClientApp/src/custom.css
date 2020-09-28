@@ -7,8 +7,14 @@ code {
 	color: #e01a76;
 }
 
+.when {
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 200;
+	display: inline;
+}
+
 .main {
-	margin: 36px;
+	margin: 36px 0;
 }
 
 .btn-primary {
@@ -38,6 +44,14 @@ h3.subtitle {
 	margin: 48px;
 }
 
+.titleHeading > * {
+	margin-bottom: 8px;
+}
+
+.titleHeading > input {
+	margin-top: 32px;
+}
+
 input[type='text'] {
 	border-radius: 8px;
 	border-color: #afafaf;
@@ -55,6 +69,14 @@ input[type='text'].error {
 
 input[type='text'].error::placeholder {
 	color: red;
+}
+
+footer {
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 300;
+	font-size: 16px;
+	text-align: center;
+	margin-top: 64px;
 }
 
 @media (max-width: 480px) {
