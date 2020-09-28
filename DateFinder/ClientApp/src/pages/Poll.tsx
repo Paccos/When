@@ -5,9 +5,9 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import DateGrid from '../components/DateGrid';
+import { DateGrid } from '../components/DateGrid';
 import { ParticipantList } from '../components/ParticipantList';
-import SubmitButton from '../components/SubmitButton';
+import { SubmitButton } from '../components/SubmitButton';
 
 import { SelectionState, UserSelection } from '../types/PollTypes';
 
@@ -75,25 +75,25 @@ export const Poll = () => {
 		entries: { date: Date; entries: { name: string; maybe: boolean }[] }[],
 		userSelections: { date: Date; state: SelectionState }[]
 	) =>
-		entries
-			.map((e) => {
-				const selection = userSelections.find(
-					(u) => u.date.getTime() === e.date.getTime()
-				);
-				if (!selection) return undefined;
-				if (selection.state === SelectionState.No) return e;
-				else if (selection.state === SelectionState.Maybe)
-					return {
-						date: e.date,
-						entries: [...e.entries, { name: username, maybe: true }],
-					};
-				else
-					return {
-						date: e.date,
-						entries: [{ name: username, maybe: false }, ...e.entries],
-					};
-			})
-			.filter((e) => e != undefined);
+		entries.map((e) => {
+			const selection = userSelections.find(
+				(u) => u.date.getTime() === e.date.getTime()
+			);
+
+			if (!selection) return e;
+
+			if (selection.state === SelectionState.No) return e;
+			else if (selection.state === SelectionState.Maybe)
+				return {
+					date: e.date,
+					entries: [...e.entries, { name: username, maybe: true }],
+				};
+			else
+				return {
+					date: e.date,
+					entries: [{ name: username, maybe: false }, ...e.entries],
+				};
+		});
 
 	const namesAndStatesWithoutId = (id: string) =>
 		namesAndStates.map((dns) => ({

@@ -3,29 +3,32 @@ import React from 'react';
 import { NameCircle } from './NameCircle';
 import { ToggleButton } from './ToggleButton';
 
-import './DateView.css';
+import styles from './DateGrid.module.css';
+import { SelectionState } from '../types/PollTypes';
 
-const DateView = (props) => {
-	const date = new Date(props.date);
+const DateView = (props: { date: Date }) => {
+	const date = props.date;
 
 	const monthStr = date.toLocaleString(undefined, { month: 'short' });
 	const dateStr = date.toLocaleString(undefined, { day: 'numeric' });
 	const weekdayStr = date.toLocaleString(undefined, { weekday: 'short' });
 
 	return (
-		<div className="date">
-			<div className="month">{monthStr.toUpperCase()}</div>
-			<div className="day">{dateStr}</div>
-			<div className="weekday">{weekdayStr}</div>
+		<div className={styles.date}>
+			<div className={styles.month}>{monthStr.toUpperCase()}</div>
+			<div className={styles.day}>{dateStr}</div>
+			<div className={styles.weekday}>{weekdayStr}</div>
 		</div>
 	);
 };
 
-const NamesBar = (props) => {
+const NamesBar = (props: {
+	namesAndStates: { name: string; maybe: boolean }[];
+}) => {
 	const namesAndStates = props.namesAndStates;
 
 	return (
-		<div className="namesBar">
+		<div className={styles.namesBar}>
 			{namesAndStates.map((n, index) => (
 				<NameCircle stacked={true} key={index} name={n.name} maybe={n.maybe} />
 			))}
@@ -33,19 +36,24 @@ const NamesBar = (props) => {
 	);
 };
 
-const YesMaybeCounter = (props) => {
+const YesMaybeCounter = (props: { yes: number; maybe: number }) => {
 	const yes = props.yes;
 	const maybe = props.maybe;
 
 	return (
-		<div className="ymCounter">
-			<p className="yesCount">{yes}</p>
-			<p className="maybeCount">({maybe})</p>
+		<div className={styles.ymCounter}>
+			<p className={styles.yesCount}>{yes}</p>
+			<p className={styles.maybeCount}>({maybe})</p>
 		</div>
 	);
 };
 
-const DateColumn = (props) => {
+const DateColumn = (props: {
+	date: Date;
+	namesAndStates: { name: string; maybe: boolean }[];
+	buttonState: SelectionState;
+	handleButtonChange: (state: SelectionState) => void;
+}) => {
 	const date = props.date;
 	const namesAndStates = props.namesAndStates;
 
@@ -53,7 +61,7 @@ const DateColumn = (props) => {
 	const maybeCount = namesAndStates.filter((nAndS) => nAndS.maybe).length;
 
 	return (
-		<div className="dateColumn">
+		<div className={styles.dateColumn}>
 			<NamesBar namesAndStates={namesAndStates} />
 			<DateView date={date} />
 			<YesMaybeCounter yes={yesCount} maybe={maybeCount} />
@@ -67,11 +75,15 @@ const DateColumn = (props) => {
 	);
 };
 
-const DateGrid = (props) => {
+export const DateGrid = (props: {
+	entries: { date: Date; entries: { name: string; maybe: boolean }[] }[];
+	userSelections: { date: Date; state: SelectionState }[];
+	handleUserSelection: (date: Date, state: SelectionState) => void;
+}) => {
 	const entries = props.entries;
 
 	return (
-		<div className="dateGrid">
+		<div className={styles.dateGrid}>
 			{entries.map((e, index) => (
 				<DateColumn
 					date={e.date}
@@ -80,7 +92,7 @@ const DateGrid = (props) => {
 					buttonState={
 						props.userSelections.find(
 							(selection) => selection.date.getTime() === e.date.getTime()
-						).state
+						)?.state ?? SelectionState.No
 					}
 					handleButtonChange={(state) => {
 						props.handleUserSelection(e.date, state);
@@ -90,5 +102,3 @@ const DateGrid = (props) => {
 		</div>
 	);
 };
-
-export default DateGrid;

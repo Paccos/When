@@ -93,11 +93,6 @@
 		padding: 8px 0;
 	}
 
-	.stackedCircle {
-		margin-top: 0;
-		margin-left: -20px;
-	}
-
 	.date {
 		order: 1;
 		margin-bottom: 0px;
@@ -122,11 +117,6 @@
 
 	.maybeCount {
 		margin: 0;
-	}
-
-	.toggleButton {
-		margin-bottom: 0;
-		margin-right: 16px;
 	}
 }
 
