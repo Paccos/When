@@ -20,6 +20,10 @@ export const NewPoll = () => {
 	const [pollTitle, setPollTitle] = useState('');
 	const [selectedDays, setSelectedDays] = useState([] as Date[]);
 
+	const [nameEmptyError, setNameEmptyError] = useState(false);
+	const [titleEmptyError, setTitleEmptyError] = useState(false);
+	const [selectionEmptyError, setSelectionEmptyError] = useState(false);
+
 	const history = useHistory();
 
 	const onDaySelect = (day: Date) => {
@@ -30,6 +34,8 @@ export const NewPoll = () => {
 
 		if (selectionIndex === -1) selection.push(day);
 		else selection.splice(selectionIndex, 1);
+
+		if (selection.length > 0) setSelectionEmptyError(false);
 
 		setSelectedDays(selection);
 	};
@@ -67,6 +73,25 @@ export const NewPoll = () => {
 			state: 1,
 		}));
 
+		if (!authorName || authorName.trim() === '') {
+			setNameEmptyError(true);
+			return;
+		}
+
+		setNameEmptyError(false);
+
+		if (!pollTitle || pollTitle.trim() === '') {
+			setTitleEmptyError(true);
+			return;
+		}
+
+		setTitleEmptyError(false);
+
+		if (dateSelections.length === 0) {
+			setSelectionEmptyError(true);
+			return;
+		}
+
 		const poll = {
 			author: authorName,
 			title: pollTitle,
@@ -97,12 +122,14 @@ export const NewPoll = () => {
 						type="text"
 						placeholder="Max Mustermann"
 						onChange={(e) => setAuthorName(e.target.value)}
+						className={nameEmptyError ? 'error' : ''}
 					/>
 					<label>Titel der Umfrage:</label>
 					<input
 						type="text"
 						placeholder="Star Wars Marathon"
 						onChange={(e) => setPollTitle(e.target.value)}
+						className={titleEmptyError ? 'error' : ''}
 					/>
 				</div>
 			</div>
@@ -111,7 +138,10 @@ export const NewPoll = () => {
 				<h3 className="subtitle" id={styles.chooseDaysTitle}>
 					Tage auswählen:
 				</h3>
-				<h3 className="subtitle" id={styles.chosenDaysCounter}>
+				<h3
+					className={`subtitle ${selectionEmptyError ? styles.error : ''}`}
+					id={styles.chosenDaysCounter}
+				>
 					{selectedDays.length} Tage ausgewählt
 				</h3>
 				<DayPicker

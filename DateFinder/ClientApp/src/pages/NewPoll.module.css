@@ -35,6 +35,10 @@ label {
 	grid-column: 1;
 }
 
+#chosenDaysCounter.error {
+	color: red;
+}
+
 .DayPicker {
 	width: 300px;
 	grid-column: 2;
