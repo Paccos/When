@@ -45,7 +45,10 @@ namespace DateFinder.Controllers
             var userSelection = poll.UserSelections.First();
             userSelection.DateSelections = userSelection.DateSelections.OrderBy(ds => ds.Date).ToList();
 
-            _context.Polls.Add(poll);
+            await _context.Polls.AddAsync(poll);
+            
+            poll.AuthorId = userSelection.Id;
+            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetPollAsync), new {id = poll.Id}, poll);

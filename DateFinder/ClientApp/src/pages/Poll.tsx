@@ -24,7 +24,7 @@ export const Poll = () => {
 	const history = useHistory();
 
 	const [pollTitle, setPollTitle] = useState('');
-	const [pollAuthor, setPollAuthor] = useState('');
+	const [authorId, setAuthorId] = useState('');
 
 	const [participants, setParticipants] = useState(
 		[] as { id: string; name: string }[]
@@ -136,7 +136,7 @@ export const Poll = () => {
 		}
 
 		setPollTitle(data.title);
-		setPollAuthor(data.author);
+		setAuthorId(data.authorId);
 
 		const userSelections: UserSelection[] = data.userSelections;
 
@@ -314,6 +314,8 @@ export const Poll = () => {
 
 	/* UI */
 
+	const pollAuthor = participants.find((p) => p.id === authorId)?.name;
+
 	return (
 		<div className="main">
 			<div className="titleHeading">
@@ -367,6 +369,7 @@ export const Poll = () => {
 				handleEditAction={handleEditAction}
 				deleteUserSelection={deleteUserSelection}
 				idToEdit={idToEdit}
+				authorId={authorId}
 			/>
 		</div>
 	);

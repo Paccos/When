@@ -17,11 +17,14 @@ export const ParticipantList = (props: {
 	participants: { id: string; name: string }[];
 	deleteUserSelection: (id: string) => void;
 	idToEdit: string;
+	authorId: string;
 	handleEditAction: (id: string) => void;
 }) => {
 	const participants = props.participants;
 
 	const handleDeleteAction = async (id: string) => {
+		if (id === props.authorId) return;
+
 		const result = await SwalWReact.fire({
 			icon: 'warning',
 			title: `Löschen bestätigen`,
@@ -64,6 +67,11 @@ export const ParticipantList = (props: {
 							color="red"
 							id={styles.deleteCircle}
 							submitHandler={() => handleDeleteAction(participant.id)}
+							tooltip={
+								participant.id === props.authorId
+									? 'Der Eintrag des Autors kann nicht gelöscht werden'
+									: ''
+							}
 						/>
 					) : (
 						<button
