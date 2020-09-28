@@ -10,7 +10,6 @@ import { ParticipantList } from '../components/ParticipantList';
 import SubmitButton from '../components/SubmitButton';
 
 import cross from '../images/Cross.png';
-import { stringify } from 'querystring';
 
 const SwalWReact = withReactContent(Swal);
 

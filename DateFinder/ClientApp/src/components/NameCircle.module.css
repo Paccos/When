@@ -1,0 +1,21 @@
+.nameCircle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'HelveticaNeue-Bold';
+	font-size: 26px;
+	color: white;
+	background-color: #129f00;
+	min-width: 60px;
+	height: 60px;
+	border-radius: 30px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+.stackedCircle {
+	margin-top: -20px;
+}
+
+.maybe {
+	background-color: #ef9c00;
+}

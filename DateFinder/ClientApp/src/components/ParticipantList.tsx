@@ -9,7 +9,7 @@ import edit from '../images/Edit.png';
 import cross from '../images/Cross.png';
 
 import SubmitButton from './SubmitButton';
-import { NameCircle } from './DateGrid';
+import { NameCircle } from './NameCircle';
 
 const SwalWReact = withReactContent(Swal);
 

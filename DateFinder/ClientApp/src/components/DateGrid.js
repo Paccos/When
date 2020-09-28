@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
+
+import { NameCircle } from './NameCircle';
 
 import './DateView.css';
 import checkmark from '../images/Checkmark.png';
@@ -17,26 +18,6 @@ const DateView = (props) => {
 			<div className="month">{monthStr.toUpperCase()}</div>
 			<div className="day">{dateStr}</div>
 			<div className="weekday">{weekdayStr}</div>
-		</div>
-	);
-};
-
-export const NameCircle = (props) => {
-	const initials = props.name
-		.split(' ')
-		.map((n) => n[0])
-		.join('');
-
-	const maybe = props.maybe;
-	const stacked = props.stacked;
-	const classes = `nameCircle ${maybe ? 'maybe' : ''} ${
-		stacked ? 'stackedCircle' : ''
-	}`;
-
-	return (
-		<div className={classes} data-tip={stacked ? props.name : ''}>
-			{initials}
-			{stacked && <ReactTooltip place="top" type="dark" effect="solid" />}
 		</div>
 	);
 };
