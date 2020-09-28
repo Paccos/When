@@ -7,7 +7,7 @@ import { NewPoll } from './pages/NewPoll';
 import { Poll } from './pages/Poll';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-const App = (props) => {
+const App = () => {
 	return (
 		<BrowserRouter>
 			<Switch>
