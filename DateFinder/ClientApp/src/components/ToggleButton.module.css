@@ -18,3 +18,10 @@
 .toggleButton.no {
 	background-color: #ef0000;
 }
+
+@media (max-width: 740px) {
+	.toggleButton {
+		margin-bottom: 0;
+		margin-right: 16px;
+	}
+}
