@@ -2,7 +2,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'HelveticaNeue-Bold';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 26px;
 	color: white;
 	background-color: #129f00;

@@ -19,13 +19,15 @@ code {
 
 h1.title {
 	text-align: center;
-	font-family: 'HelveticaNeue-Bold';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 48px;
 }
 
 h3.subtitle {
 	text-align: center;
-	font-family: 'HelveticaNeue-Bold';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 22px;
 }
 
@@ -41,7 +43,7 @@ input[type='text'] {
 	border-color: #afafaf;
 	border-width: 1px;
 	border-style: solid;
-	font-family: 'Helvetica Neue';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
 	padding: 8px 12px;
 	width: 80%;
 }

@@ -8,7 +8,8 @@
 }
 
 label {
-	font-family: 'HelveticaNeue-Bold';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 22px;
 }
 
@@ -45,7 +46,8 @@ label {
 }
 
 .pollLink {
-	font-family: 'HelveticaNeue-Bold';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 700;
 	font-size: 32px;
 	color: #129f00;
 }

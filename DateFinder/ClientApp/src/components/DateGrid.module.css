@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .date {
 	display: flex;
 	flex-direction: column;
@@ -7,21 +9,22 @@
 }
 
 .month {
-	font-family: 'Helvetica Neue';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
 	color: red;
 	font-size: 26px;
-	font-weight: bold;
+	font-weight: 700;
 }
 
 .day {
-	font-family: 'Helvetica Neue';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
 	font-size: 40px;
-	font-weight: bold;
+	font-weight: 700;
 	margin-top: -10px;
 }
 
 .weekday {
-	font-family: 'HelveticaNeue-Medium';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 500;
 	font-size: 18px;
 	margin-top: 0;
 }
@@ -37,14 +40,16 @@
 
 .yesCount {
 	color: #129f00;
-	font: 'HelveticaNeue-Medium';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 500;
 	font-size: 20px;
 	margin-right: 1px;
 }
 
 .maybeCount {
 	color: #ef9c00;
-	font: 'HelveticaNeue-Medium';
+	font-family: 'Helvetica Neue', 'Roboto', sans-serif;
+	font-weight: 500;
 	font-size: 20px;
 	margin-left: 1px;
 }
