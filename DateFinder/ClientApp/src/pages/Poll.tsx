@@ -5,31 +5,15 @@ import { useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import DateGrid, { ToggleButton } from '../components/DateGrid';
+import DateGrid from '../components/DateGrid';
 import { ParticipantList } from '../components/ParticipantList';
 import SubmitButton from '../components/SubmitButton';
+
+import { SelectionState, UserSelection } from '../types/PollTypes';
 
 import cross from '../images/Cross.png';
 
 const SwalWReact = withReactContent(Swal);
-
-enum SelectionState {
-	No = 0,
-	Yes = 1,
-	Maybe = 2,
-}
-
-type DateSelection = {
-	date: Date;
-	state: SelectionState;
-};
-
-type UserSelection = {
-	id: string;
-	name: string;
-	dateSelections: DateSelection[];
-	pollId: string;
-};
 
 export const Poll = () => {
 	/* States / Properties */
@@ -74,12 +58,12 @@ export const Poll = () => {
 						name: string;
 						maybe: boolean;
 					}[];
-				if (dateSelection.state === ToggleButton.buttonStates.no) return;
+				if (dateSelection.state === SelectionState.No) return;
 
 				result[dateSelection.date + ''].push({
 					id: userSelection.id,
 					name: userSelection.name,
-					maybe: dateSelection.state === ToggleButton.buttonStates.maybe,
+					maybe: dateSelection.state === SelectionState.Maybe,
 				});
 			});
 		});
@@ -97,8 +81,8 @@ export const Poll = () => {
 					(u) => u.date.getTime() === e.date.getTime()
 				);
 				if (!selection) return undefined;
-				if (selection.state === ToggleButton.buttonStates.no) return e;
-				else if (selection.state === ToggleButton.buttonStates.maybe)
+				if (selection.state === SelectionState.No) return e;
+				else if (selection.state === SelectionState.Maybe)
 					return {
 						date: e.date,
 						entries: [...e.entries, { name: username, maybe: true }],
@@ -124,16 +108,16 @@ export const Poll = () => {
 			);
 
 			if (!namesAndStateForDate)
-				return { date: s.date, state: ToggleButton.buttonStates.no };
+				return { date: s.date, state: SelectionState.No };
 
 			const entryForId = namesAndStateForDate.entries.find((e) => e.id === id);
 
-			let state = ToggleButton.buttonStates.yes;
+			let state = SelectionState.Yes;
 
 			if (!entryForId) {
-				state = ToggleButton.buttonStates.no;
+				state = SelectionState.No;
 			} else if (entryForId.maybe) {
-				state = ToggleButton.buttonStates.maybe;
+				state = SelectionState.Maybe;
 			}
 
 			return { date: s.date, state: state };

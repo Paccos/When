@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { NameCircle } from './NameCircle';
+import { ToggleButton } from './ToggleButton';
 
 import './DateView.css';
-import checkmark from '../images/Checkmark.png';
-import cross from '../images/Cross.png';
 
 const DateView = (props) => {
 	const date = new Date(props.date);
@@ -45,42 +44,6 @@ const YesMaybeCounter = (props) => {
 		</div>
 	);
 };
-
-const toggleButtonStates = {
-	yes: 1,
-	maybe: 2,
-	no: 0,
-};
-
-export const ToggleButton = (props) => {
-	const buttonState = props.buttonState;
-	const className = `toggleButton ${Object.keys(ToggleButton.buttonStates).find(
-		(key) => ToggleButton.buttonStates[key] === buttonState
-	)}`;
-
-	return (
-		<button
-			className={className}
-			onClick={() => {
-				if (buttonState === ToggleButton.buttonStates.yes)
-					props.handleButtonChange(ToggleButton.buttonStates.maybe);
-				else if (buttonState === ToggleButton.buttonStates.maybe)
-					props.handleButtonChange(ToggleButton.buttonStates.no);
-				else if (buttonState === ToggleButton.buttonStates.no)
-					props.handleButtonChange(ToggleButton.buttonStates.yes);
-			}}
-		>
-			<img
-				src={buttonState === ToggleButton.buttonStates.no ? cross : checkmark}
-				alt={`${Object.keys(ToggleButton.buttonStates).find(
-					(key) => ToggleButton.buttonStates[key] === buttonState
-				)}`}
-			/>
-		</button>
-	);
-};
-
-ToggleButton.buttonStates = toggleButtonStates;
 
 const DateColumn = (props) => {
 	const date = props.date;
