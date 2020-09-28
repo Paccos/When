@@ -1,0 +1,9 @@
+.notFoundImage {
+	margin: 56px auto;
+	display: block;
+}
+
+#newPollButton {
+	display: block;
+	margin: 16px auto;
+}

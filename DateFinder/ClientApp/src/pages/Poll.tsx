@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Poll.module.css';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -21,6 +21,7 @@ export const Poll = () => {
 	const displayName = Poll.name;
 
 	const { pollId } = useParams();
+	const history = useHistory();
 
 	const [pollTitle, setPollTitle] = useState('');
 	const [pollAuthor, setPollAuthor] = useState('');
@@ -128,6 +129,11 @@ export const Poll = () => {
 	const fetchPollData = useCallback(async () => {
 		const response = await fetch(`api/polls/${pollId}`);
 		const data = await response.json();
+
+		if (data.errors || data.status == 404) {
+			history.push('/404');
+			return;
+		}
 
 		setPollTitle(data.title);
 		setPollAuthor(data.author);
