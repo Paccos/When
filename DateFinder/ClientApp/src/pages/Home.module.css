@@ -1,0 +1,70 @@
+.hero {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+
+.heroColumn {
+	max-width: 80vw;
+	display: none;
+}
+
+.newPollButton {
+	background-color: white;
+	border: 0;
+	border-radius: 100px;
+	margin: 32px auto;
+	padding: 32px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	box-shadow: 3px 6px 10px rgba(0, 0, 0, 0.16);
+	max-width: 560px;
+}
+
+.newPollButton:active {
+	color: black;
+}
+
+.newPollButton > h1 {
+	margin: 0;
+	text-align: center;
+}
+
+#embeddedSubmit {
+	margin: 0 0 0 32px;
+}
+
+@media (max-width: 740px) {
+	.hero {
+		display: none;
+	}
+
+	.heroColumn {
+		display: block;
+	}
+
+	.newPollButton {
+		max-width: 80vw;
+	}
+}
+
+@media (max-width: 490px) {
+	.newPollButton {
+		padding: 16px;
+	}
+
+	.newPollButton > h1 {
+		font-size: 24px;
+	}
+
+	#embeddedSubmit {
+		margin-left: 16px;
+	}
+}
+
+@media (max-width: 340px) {
+	.newPollButton > h1 {
+		font-size: 20px;
+	}
+}
