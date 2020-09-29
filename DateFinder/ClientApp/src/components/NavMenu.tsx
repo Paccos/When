@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
 export const NavMenu = () => {
-	const [collapsed, setCollapsed] = useState(true);
+	const [collapsed, setCollapsed] = useState(false);
 
 	const toggleNavbar = () => {
 		setCollapsed(!collapsed);
