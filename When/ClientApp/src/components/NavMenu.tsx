@@ -10,6 +10,7 @@ import {
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+import logo from '../images/WhenLogo.png';
 import './NavMenu.css';
 
 export const NavMenu = () => {
@@ -26,8 +27,8 @@ export const NavMenu = () => {
 				light
 			>
 				<Container>
-					<NavbarBrand tag={Link} to="/" className="when">
-						When?
+					<NavbarBrand tag={Link} to="/">
+						<img src={logo} alt="When Logo" className="whenLogo" />
 					</NavbarBrand>
 					<NavbarToggler onClick={toggleNavbar} className="mr-2" />
 					<Collapse
