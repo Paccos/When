@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DateFinder", "DateFinder\DateFinder.csproj", "{5A1529F7-60FA-4E14-8D31-F93B62111175}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "When", "DateFinder\When.csproj", "{5A1529F7-60FA-4E14-8D31-F93B62111175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
