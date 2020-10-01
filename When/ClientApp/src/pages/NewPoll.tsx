@@ -41,7 +41,7 @@ export const NewPoll = () => {
 	};
 
 	const showSuccessDialog = (pollId: string) => {
-		const url = `https://localhost:5001/${pollId}`;
+		const url = `${window.location.origin}/${pollId}`;
 
 		SwalWReact.fire({
 			icon: 'success',

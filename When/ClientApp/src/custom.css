@@ -13,6 +13,10 @@ code {
 	display: inline;
 }
 
+.whenLogo {
+	max-height: 40px;
+}
+
 .main {
 	margin: 36px 0;
 }
