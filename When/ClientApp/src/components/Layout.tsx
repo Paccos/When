@@ -11,7 +11,7 @@ export const Layout = (props: { children: React.ReactNode }) => {
 				<footer>
 					© 2020 Patryk Pekala
 					<br />
-					<a href="youtube.com">View Code on GitHub</a>
+					<a href="https://github.com/paccos/when">View Code on GitHub</a>
 				</footer>
 			</Container>
 		</div>
