@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace DateFinder.Models
+namespace When.Models
 {
     [Owned]
     public class DateSelection

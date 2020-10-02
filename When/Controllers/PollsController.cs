@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DateFinder.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using When.Models;
 
-namespace DateFinder.Controllers
+namespace When.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
