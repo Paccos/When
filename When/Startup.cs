@@ -1,4 +1,4 @@
-using DateFinder.Models;
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
+using When.Models;
 
-namespace DateFinder
+namespace When
 {
     public class Startup
     {
@@ -19,11 +21,34 @@ namespace DateFinder
 
         public IConfiguration Configuration { get; }
 
+        private string ConnectionStringFromDbUrl(string url)
+        {
+            var uri = new Uri(url);
+            var userInfo = uri.UserInfo.Split(':');
+
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = uri.Host,
+                Port = uri.Port,
+                Username = userInfo[0],
+                Password = userInfo[1],
+                Database = uri.LocalPath.TrimStart('/'),
+                SslMode = SslMode.Prefer,
+                TrustServerCertificate = true 
+            };
+
+            return builder.ToString();
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<PollContext>(opt => opt.UseInMemoryDatabase("Polls"));
-            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+            var dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
+            
+            services.AddDbContext<PollContext>(opt => 
+                opt.UseNpgsql(ConnectionStringFromDbUrl(dbUrl)));
+
+            services.AddControllersWithViews().AddNewtonsoftJson(options => 
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
 

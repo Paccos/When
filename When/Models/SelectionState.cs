@@ -1,5 +1,5 @@
 ﻿using System;
-namespace DateFinder.Models
+namespace When.Models
 {
     public enum SelectionState : uint
     {

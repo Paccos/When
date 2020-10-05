@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DateFinder.Models;
+using When.Models;
 
-namespace DateFinder.Controllers
+namespace When.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
