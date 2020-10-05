@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace DateFinder.Models
+namespace When.Models
 {
     public class PollContext : DbContext
     {

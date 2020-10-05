@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DateFinder.Models
+namespace When.Models
 {
     public class UserSelection
     {
