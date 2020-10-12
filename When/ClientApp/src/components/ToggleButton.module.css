@@ -29,7 +29,7 @@
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 
-@media (max-width: 740px) {
+@media (max-width: 768px) {
 	.toggleButton {
 		margin-bottom: 0;
 		margin-right: 16px;

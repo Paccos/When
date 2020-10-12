@@ -18,7 +18,7 @@
 	font-size: 28px;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 768px) {
 	.resultsAndSubmit {
 		align-items: initial;
 		flex-direction: column;
