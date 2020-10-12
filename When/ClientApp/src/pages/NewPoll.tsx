@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 import { useHistory } from 'react-router-dom';
 
 import styles from './NewPoll.module.css';
@@ -19,6 +20,8 @@ export const NewPoll = () => {
 	const [authorName, setAuthorName] = useState('');
 	const [pollTitle, setPollTitle] = useState('');
 	const [selectedDays, setSelectedDays] = useState([] as Date[]);
+
+	const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
 	const [nameEmptyError, setNameEmptyError] = useState(false);
 	const [titleEmptyError, setTitleEmptyError] = useState(false);
@@ -104,8 +107,12 @@ export const NewPoll = () => {
 			body: JSON.stringify(poll),
 		};
 
+		setIsSubmitLoading(true);
+
 		const response = await fetch('api/polls', requestOptions);
 		const data = await response.json();
+
+		setIsSubmitLoading(false);
 
 		const pollId = data.id;
 		showSuccessDialog(pollId);
@@ -153,10 +160,16 @@ export const NewPoll = () => {
 					modifiers={{ all: (day) => true }}
 					modifiersStyles={{ all: { minWidth: '40px', height: '40px' } }}
 				/>
-				<SubmitButton
-					submitHandler={() => postPoll()}
-					id={styles.submitButton}
-				/>
+				{isSubmitLoading ? (
+					<div id={styles.submitSpinner}>
+						<ClipLoader color="#afafaf" size="60" />
+					</div>
+				) : (
+					<SubmitButton
+						submitHandler={() => postPoll()}
+						id={styles.submitButton}
+					/>
+				)}
 			</div>
 		</div>
 	);
