@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ClipLoader from "react-spinners/ClipLoader";
 import styles from './Poll.module.css';
 
 import { useParams, useHistory } from 'react-router-dom';
@@ -23,6 +24,7 @@ export const Poll = () => {
 	const { pollId } = useParams();
 	const history = useHistory();
 
+	const [isLoading, setIsLoading] = useState(true);
 	const [pollTitle, setPollTitle] = useState('');
 	const [authorId, setAuthorId] = useState('');
 
@@ -129,6 +131,8 @@ export const Poll = () => {
 	const fetchPollData = useCallback(async () => {
 		const response = await fetch(`api/polls/${pollId}`);
 		const data = await response.json();
+
+		setIsLoading(false);
 
 		if (data.errors || data.status == 404) {
 			history.push('/404');
@@ -315,6 +319,10 @@ export const Poll = () => {
 	/* UI */
 
 	const pollAuthor = participants.find((p) => p.id === authorId)?.name;
+
+	if (isLoading) {
+		return (<div className={styles.spinner}><ClipLoader color="#afafaf" size="60" /></div>);
+	}
 
 	return (
 		<div className="main">
