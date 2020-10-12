@@ -264,24 +264,13 @@ export const Poll = () => {
 	};
 
 	const deleteUserSelection = async (id: string) => {
+		setIsLoading(true);
+
 		const requestOptions = {
 			method: 'DELETE',
 		};
 
 		await fetch(`api/userSelections/${id}`, requestOptions);
-
-		await SwalWReact.fire({
-			icon: 'success',
-			title: 'Der Eintrag wurde gelöscht!',
-			html: (
-				<SubmitButton
-					submitHandler={() => {
-						Swal.clickConfirm();
-					}}
-				/>
-			),
-			showConfirmButton: false,
-		});
 
 		handleEditAction('');
 		fetchPollData();
