@@ -18,10 +18,18 @@
 }
 
 .toggleButton.no {
-	background-color: #ef0000;
+	border: 2px solid #afafaf;
+	background: none;
+	box-shadow: none;
 }
 
-@media (max-width: 740px) {
+.toggleButton.no:hover {
+	border: none;
+	background-color: #129f00;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+}
+
+@media (max-width: 768px) {
 	.toggleButton {
 		margin-bottom: 0;
 		margin-right: 16px;

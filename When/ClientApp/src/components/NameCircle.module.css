@@ -21,7 +21,7 @@
 	background-color: #ef9c00;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 768px) {
 	.stackedCircle {
 		margin-top: 0;
 		margin-left: -20px;
