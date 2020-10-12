@@ -10,10 +10,14 @@
 	column-gap: 16px;
 }
 
-.spinner {
+#pollSpinner {
 	display: flex;
 	justify-content: center;
 	margin: 100px;
+}
+
+#submitSpinner {
+	margin-bottom: 15px;
 }
 
 #participantHeading {

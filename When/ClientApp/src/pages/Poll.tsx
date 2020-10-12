@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ClipLoader from "react-spinners/ClipLoader";
+import ClipLoader from 'react-spinners/ClipLoader';
 import styles from './Poll.module.css';
 
 import { useParams, useHistory } from 'react-router-dom';
@@ -25,6 +25,8 @@ export const Poll = () => {
 	const history = useHistory();
 
 	const [isLoading, setIsLoading] = useState(true);
+	const [isSubmitLoading, setIsSubmitLoading] = useState(false);
+
 	const [pollTitle, setPollTitle] = useState('');
 	const [authorId, setAuthorId] = useState('');
 
@@ -199,6 +201,8 @@ export const Poll = () => {
 
 		await fetch(`api/userSelections`, requestOptions);
 
+		setIsSubmitLoading(false);
+
 		await SwalWReact.fire({
 			icon: 'success',
 			title: `Vielen Dank für Deine Teilnahme, ${username}!`,
@@ -239,6 +243,8 @@ export const Poll = () => {
 		};
 
 		await fetch(`api/userSelections/${id}`, requestOptions);
+
+		setIsSubmitLoading(false);
 
 		await SwalWReact.fire({
 			icon: 'success',
@@ -321,7 +327,11 @@ export const Poll = () => {
 	const pollAuthor = participants.find((p) => p.id === authorId)?.name;
 
 	if (isLoading) {
-		return (<div className={styles.spinner}><ClipLoader color="#afafaf" size="60" /></div>);
+		return (
+			<div id={styles.pollSpinner}>
+				<ClipLoader color="#afafaf" size="60" />
+			</div>
+		);
 	}
 
 	return (
@@ -358,15 +368,24 @@ export const Poll = () => {
 							submitHandler={() => handleEditAction('')}
 						/>
 					)}
-					<SubmitButton
-						submitHandler={() => {
-							if (!idToEdit || idToEdit.trim() === '') {
-								postUserSelection(username, userSelections);
-							} else {
-								putUserSelection(idToEdit, username, userSelections);
-							}
-						}}
-					/>
+
+					{isSubmitLoading ? (
+						<div id={styles.submitSpinner}>
+							<ClipLoader color="#afafaf" size="60" />
+						</div>
+					) : (
+						<SubmitButton
+							submitHandler={() => {
+								setIsSubmitLoading(true);
+
+								if (!idToEdit || idToEdit.trim() === '') {
+									postUserSelection(username, userSelections);
+								} else {
+									putUserSelection(idToEdit, username, userSelections);
+								}
+							}}
+						/>
+					)}
 				</div>
 			</div>
 			<h3 id={styles.participantHeading} className="subtitle">
