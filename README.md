@@ -39,3 +39,24 @@ Simply start Visual Studio, open the `When.sln` file in the Project root and cli
 Both methods should install the necessary project dependencies (even the `npm` packages from the React app) on the first build and run the server. You can then access the React app in a browser of your choice with the URL:
 
 ```https://localhost:5001```
+### (optional) Connecting to a Local Postgres Database
+
+When uses an In-Memory-Database when the environment variable `$DATABASE_URL` is not set. This allows for quick prototyping without having to worry about installing/maintaining a local database only for testing purposes.
+
+However, if you do want to provide a local Postgres database in order to test some database functions, you can provide such a URL to your local database as follows:
+
+1. Construct URL from your database credentials and set environment variable:
+
+   `export DATABASE_URL="postgres://<username>:<password>@localhost:5432/<database-name>"`
+
+   _Assuming, that your Postgres server runs on port `5432` on your machine._
+
+   The app will build a connection string from this URL and connect to your local database.
+
+2. Run migrations to the local database:
+
+   `dotnet ef database update`
+
+   This will make EntityFramework create the necessary tables and relations in your local database. (`$DATABASE_URL` has to be set here as well!)
+
+After that, you can run the app using the steps above and When will use your database as a persistent storage across restarts so that your data doesn't get lost.
