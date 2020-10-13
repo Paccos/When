@@ -60,3 +60,20 @@ However, if you do want to provide a local Postgres database in order to test so
    This will make EntityFramework create the necessary tables and relations in your local database. (`$DATABASE_URL` has to be set here as well!)
 
 After that, you can run the app using the steps above and When will use your database as a persistent storage across restarts so that your data doesn't get lost.
+
+# How to Contribute
+
+0. (Preferably) Create an issue in the Issues tab and assign it to yourself so that it is clear, what is currently being worked on.
+1. Fork this repo
+2. Make your desired changes
+3. Make a Pull Request to this repo's `develop` branch
+4. Get reviewed
+5. Profit 😀
+
+# How to get Help
+
+Found a bug? Have some ideas? Need help?
+
+Feel free to write an issue on the Issues tab!
+
+You are also free to fix the issue yourself and make a Pull Request, as stated above, with your changes if you have a solution in mind.
