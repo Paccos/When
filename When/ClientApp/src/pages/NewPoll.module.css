@@ -95,7 +95,8 @@ label {
 		font-size: 16px;
 	}
 
-	#submitButton {
+	#submitButton,
+	#submitSpinner {
 		justify-self: center;
 	}
 }

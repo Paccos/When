@@ -10,6 +10,16 @@
 	column-gap: 16px;
 }
 
+#pollSpinner {
+	display: flex;
+	justify-content: center;
+	margin: 100px;
+}
+
+#submitSpinner {
+	margin-bottom: 15px;
+}
+
 #participantHeading {
 	margin: 16px 0;
 	text-align: left;
