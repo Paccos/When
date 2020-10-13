@@ -131,6 +131,8 @@ export const Poll = () => {
 	/* CRUD operations */
 
 	const fetchPollData = useCallback(async () => {
+		setIsLoading(true);
+
 		const response = await fetch(`api/polls/${pollId}`);
 		const data = await response.json();
 
@@ -184,6 +186,8 @@ export const Poll = () => {
 	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
+			setIsSubmitLoading(false);
+
 			return;
 		}
 
@@ -226,6 +230,8 @@ export const Poll = () => {
 	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
+			setIsSubmitLoading(false);
+
 			return;
 		}
 
