@@ -44,9 +44,17 @@ namespace When
         public void ConfigureServices(IServiceCollection services)
         {
             var dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-            
-            services.AddDbContext<PollContext>(opt => 
-                opt.UseNpgsql(ConnectionStringFromDbUrl(dbUrl)));
+
+            if (dbUrl == null)
+            {
+                services.AddDbContext<PollContext>(opt => 
+                    opt.UseInMemoryDatabase("WhenPolls"));
+            }
+            else
+            {
+                services.AddDbContext<PollContext>(opt =>
+                    opt.UseNpgsql(ConnectionStringFromDbUrl(dbUrl)));
+            }
 
             services.AddControllersWithViews().AddNewtonsoftJson(options => 
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
