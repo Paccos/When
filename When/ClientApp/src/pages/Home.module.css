@@ -35,7 +35,7 @@
 	margin: 0 0 0 32px;
 }
 
-@media (max-width: 740px) {
+@media (max-width: 768px) {
 	.hero {
 		display: none;
 	}

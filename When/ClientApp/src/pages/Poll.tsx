@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 import styles from './Poll.module.css';
 
 import { useParams, useHistory } from 'react-router-dom';
@@ -22,6 +23,9 @@ export const Poll = () => {
 
 	const { pollId } = useParams();
 	const history = useHistory();
+
+	const [isLoading, setIsLoading] = useState(true);
+	const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
 	const [pollTitle, setPollTitle] = useState('');
 	const [authorId, setAuthorId] = useState('');
@@ -127,8 +131,12 @@ export const Poll = () => {
 	/* CRUD operations */
 
 	const fetchPollData = useCallback(async () => {
+		setIsLoading(true);
+
 		const response = await fetch(`api/polls/${pollId}`);
 		const data = await response.json();
+
+		setIsLoading(false);
 
 		if (data.errors || data.status == 404) {
 			history.push('/404');
@@ -178,6 +186,8 @@ export const Poll = () => {
 	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
+			setIsSubmitLoading(false);
+
 			return;
 		}
 
@@ -194,6 +204,8 @@ export const Poll = () => {
 		};
 
 		await fetch(`api/userSelections`, requestOptions);
+
+		setIsSubmitLoading(false);
 
 		await SwalWReact.fire({
 			icon: 'success',
@@ -218,6 +230,8 @@ export const Poll = () => {
 	) => {
 		if (!username || username.trim() === '') {
 			setUsernameEmptyError(true);
+			setIsSubmitLoading(false);
+
 			return;
 		}
 
@@ -235,6 +249,8 @@ export const Poll = () => {
 		};
 
 		await fetch(`api/userSelections/${id}`, requestOptions);
+
+		setIsSubmitLoading(false);
 
 		await SwalWReact.fire({
 			icon: 'success',
@@ -254,24 +270,13 @@ export const Poll = () => {
 	};
 
 	const deleteUserSelection = async (id: string) => {
+		setIsLoading(true);
+
 		const requestOptions = {
 			method: 'DELETE',
 		};
 
 		await fetch(`api/userSelections/${id}`, requestOptions);
-
-		await SwalWReact.fire({
-			icon: 'success',
-			title: 'Der Eintrag wurde gelöscht!',
-			html: (
-				<SubmitButton
-					submitHandler={() => {
-						Swal.clickConfirm();
-					}}
-				/>
-			),
-			showConfirmButton: false,
-		});
 
 		handleEditAction('');
 		fetchPollData();
@@ -316,6 +321,14 @@ export const Poll = () => {
 
 	const pollAuthor = participants.find((p) => p.id === authorId)?.name;
 
+	if (isLoading) {
+		return (
+			<div id={styles.pollSpinner}>
+				<ClipLoader color="#afafaf" size="60" />
+			</div>
+		);
+	}
+
 	return (
 		<div className="main">
 			<div className="titleHeading">
@@ -350,15 +363,24 @@ export const Poll = () => {
 							submitHandler={() => handleEditAction('')}
 						/>
 					)}
-					<SubmitButton
-						submitHandler={() => {
-							if (!idToEdit || idToEdit.trim() === '') {
-								postUserSelection(username, userSelections);
-							} else {
-								putUserSelection(idToEdit, username, userSelections);
-							}
-						}}
-					/>
+
+					{isSubmitLoading ? (
+						<div id={styles.submitSpinner}>
+							<ClipLoader color="#afafaf" size="60" />
+						</div>
+					) : (
+						<SubmitButton
+							submitHandler={() => {
+								setIsSubmitLoading(true);
+
+								if (!idToEdit || idToEdit.trim() === '') {
+									postUserSelection(username, userSelections);
+								} else {
+									putUserSelection(idToEdit, username, userSelections);
+								}
+							}}
+						/>
+					)}
 				</div>
 			</div>
 			<h3 id={styles.participantHeading} className="subtitle">

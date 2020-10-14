@@ -30,7 +30,7 @@ export const ToggleButton = (props: {
 			}}
 		>
 			<img
-				src={buttonState === SelectionState.No ? cross : checkmark}
+				src={checkmark}
 				alt={SelectionState[buttonState]}
 			/>
 		</button>
