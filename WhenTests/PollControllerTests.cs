@@ -23,7 +23,7 @@ namespace WhenTests
             _pollsControllerToTest = new PollsController(_pollsContext);
         }
 
-        private List<UserSelection> TestData()
+        public static List<UserSelection> TestData()
         {
             var dateSelecitons = Enumerable
                 .Range(1, 10)
