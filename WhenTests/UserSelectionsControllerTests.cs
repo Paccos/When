@@ -64,7 +64,6 @@ namespace WhenTests
             var testSelection = PollControllerTests.TestData()[0];
             await _pollsContext.AddAsync(testSelection);
             await _pollsContext.SaveChangesAsync();
-
             var wrongId = new Guid();
 
             var putWithWrongId = await _userSelectionsControllerToTest.PutUserSelection(wrongId, testSelection);
@@ -159,6 +158,7 @@ namespace WhenTests
             var testSelection = PollControllerTests.TestData()[0];
 
             var result = await _userSelectionsControllerToTest.PostUserSelection(testSelection);
+
             Assert.IsType<CreatedAtActionResult>(result.Result);
 
             var createdAtResult = result.Result as CreatedAtActionResult;

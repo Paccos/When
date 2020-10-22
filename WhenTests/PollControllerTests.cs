@@ -97,8 +97,8 @@ namespace WhenTests
         public async void PostReturnsCreatedAtWithAuthorIdAndSortedDateSelections()
         {
             var testPoll = new Poll { Title = "TestPoll", UserSelections = TestData() };
-
             var result = await _pollsControllerToTest.PostPoll(testPoll);
+
             Assert.IsType<CreatedAtActionResult>(result.Result);
 
             var createdAtResult = result.Result as CreatedAtActionResult;
