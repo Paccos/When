@@ -109,7 +109,8 @@ namespace WhenTests
             var sortedTestSelections = testPoll.UserSelections
                 .First()
                 .DateSelections
-                .OrderBy(ds => ds.Date).ToList();
+                .OrderBy(ds => ds.Date)
+                .ToList();
 
             Assert.Equal(sortedTestSelections, postedPoll.UserSelections.First().DateSelections);
         }

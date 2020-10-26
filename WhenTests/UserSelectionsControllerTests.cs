@@ -185,7 +185,9 @@ namespace WhenTests
         {
             var testPoll = new Poll { Title = "TestPoll", UserSelections = PollControllerTests.TestData() };
             var userSelection = testPoll.UserSelections.First();
-            userSelection.DateSelections = userSelection.DateSelections.OrderBy(ds => ds.Date).ToList();
+            userSelection.DateSelections = userSelection.DateSelections
+                .OrderBy(ds => ds.Date)
+                .ToList();
 
             await _pollsContext.Polls.AddAsync(testPoll);
 
@@ -203,7 +205,9 @@ namespace WhenTests
         {
             var testPoll = new Poll { Title = "TestPoll", UserSelections = PollControllerTests.TestData() };
             var userSelection = testPoll.UserSelections.First();
-            userSelection.DateSelections = userSelection.DateSelections.OrderBy(ds => ds.Date).ToList();
+            userSelection.DateSelections = userSelection.DateSelections
+                .OrderBy(ds => ds.Date)
+                .ToList();
 
             await _pollsContext.Polls.AddAsync(testPoll);
 
