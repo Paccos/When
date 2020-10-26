@@ -84,12 +84,12 @@ namespace When.Controllers
         {
             if (userSelection.Name == null || userSelection.Name.Trim() == "")
             {
-                return BadRequest();
+                return BadRequest("Name for UserSelection must not be empty");
             }
 
             if (userSelection.DateSelections == null || userSelection.DateSelections.Count == 0)
             {
-                return BadRequest();
+                return BadRequest("DateSelections for UserSelection must not be empty");
             }
 
             _context.UserSelections.Add(userSelection);

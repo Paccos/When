@@ -132,14 +132,14 @@ namespace WhenTests
 
             var result = await _userSelectionsControllerToTest.PostUserSelection(badUserSelection);
 
-            Assert.IsType<BadRequestResult>(result.Result);
+            Assert.IsType<BadRequestObjectResult>(result.Result);
 
             // Test without DateSelections
             badUserSelection.Name = "Alice";
 
             result = await _userSelectionsControllerToTest.PostUserSelection(badUserSelection);
 
-            Assert.IsType<BadRequestResult>(result.Result);
+            Assert.IsType<BadRequestObjectResult>(result.Result);
 
             // Test without Name
             badUserSelection.Name = "  ";
@@ -149,7 +149,7 @@ namespace WhenTests
 
             result = await _userSelectionsControllerToTest.PostUserSelection(badUserSelection);
 
-            Assert.IsType<BadRequestResult>(result.Result);
+            Assert.IsType<BadRequestObjectResult>(result.Result);
         }
 
         [Fact]
