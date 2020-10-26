@@ -23,10 +23,12 @@
 	box-shadow: none;
 }
 
-.toggleButton.no:hover {
-	border: none;
-	background-color: #129f0077;
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+@media (hover: hover) {
+	.toggleButton.no:hover {
+		border: none;
+		background-color: #129f0077;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+	}
 }
 
 @media (max-width: 768px) {
