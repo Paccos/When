@@ -38,14 +38,14 @@ namespace When.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserSelection(Guid id, UserSelection userSelection)
+        public async Task<ActionResult<UserSelection>> PutUserSelection(Guid id, UserSelection userSelection)
         {
             if (id != userSelection.Id)
             {
                 return BadRequest();
             }
 
-            var selectionToUpdate = await _context.UserSelections.FirstOrDefaultAsync(us => us.Id == userSelection.Id);
+            var selectionToUpdate = await _context.UserSelections.FindAsync(id);
 
             if (selectionToUpdate == null)
             {
@@ -82,6 +82,16 @@ namespace When.Controllers
         [HttpPost]
         public async Task<ActionResult<UserSelection>> PostUserSelection(UserSelection userSelection)
         {
+            if (userSelection.Name == null || userSelection.Name.Trim() == "")
+            {
+                return BadRequest("Name for UserSelection must not be empty");
+            }
+
+            if (userSelection.DateSelections == null || userSelection.DateSelections.Count == 0)
+            {
+                return BadRequest("DateSelections for UserSelection must not be empty");
+            }
+
             _context.UserSelections.Add(userSelection);
             await _context.SaveChangesAsync();
 
@@ -105,6 +115,7 @@ namespace When.Controllers
                 return BadRequest("Selection of the poll's author cannot be deleted.");
             }
 
+            userSelection.DateSelections.RemoveAll(ds => true);
             _context.UserSelections.Remove(userSelection);
             await _context.SaveChangesAsync();
 
