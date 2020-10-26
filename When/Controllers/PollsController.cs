@@ -42,16 +42,26 @@ namespace When.Controllers
         [HttpPost]
         public async Task<ActionResult<Poll>> PostPoll(Poll poll)
         {
+            if (poll.UserSelections == null || poll.UserSelections.Count == 0)
+            {
+                return BadRequest("UserSelection for a new Poll must not be empty");
+            }
+
+            if (poll.Title == null || poll.Title.Trim().Equals(""))
+            {
+                return BadRequest("Poll Title must not be empty");
+            }
+
             var userSelection = poll.UserSelections.First();
             userSelection.DateSelections = userSelection.DateSelections.OrderBy(ds => ds.Date).ToList();
 
             await _context.Polls.AddAsync(poll);
-            
+
             poll.AuthorId = userSelection.Id;
-            
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetPollAsync), new {id = poll.Id}, poll);
+            return CreatedAtAction(nameof(GetPollAsync), new { id = poll.Id }, poll);
         }
     }
 }
