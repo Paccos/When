@@ -1,12 +1,17 @@
-.hero {
-	display: block;
-	max-width: 100%;
-	margin: 0 auto;
+.heroContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
 
-.heroColumn {
-	max-width: 80vw;
-	display: none;
+.heroDesktop {
+	height: 100%;
+	margin: 0 16px;
+}
+
+.heroMobile {
+	height: 83%;
+	margin: 0 16px;
 }
 
 .newPollButton {
@@ -36,12 +41,8 @@
 }
 
 @media (max-width: 768px) {
-	.hero {
+	.heroDesktop {
 		display: none;
-	}
-
-	.heroColumn {
-		display: block;
 	}
 
 	.newPollButton {
