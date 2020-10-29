@@ -1,12 +1,23 @@
-.hero {
-	display: block;
-	max-width: 100%;
-	margin: 0 auto;
+.heroContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
 }
 
-.heroColumn {
-	max-width: 80vw;
-	display: none;
+.heroDesktop {
+	max-width: 70%;
+	max-height: 100%;
+	height: 100%;
+	width: 100%;
+	margin: 0 16px;
+}
+
+.heroMobile {
+	width: 100%;
+	height: 100%;
+	max-height: 100%;
+	max-width: 21%;
+	margin: 0 16px;
 }
 
 .newPollButton {
@@ -36,12 +47,12 @@
 }
 
 @media (max-width: 768px) {
-	.hero {
+	.heroDesktop {
 		display: none;
 	}
 
-	.heroColumn {
-		display: block;
+	.heroMobile {
+		max-width: 80%;
 	}
 
 	.newPollButton {

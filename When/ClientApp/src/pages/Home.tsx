@@ -2,8 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import styles from './Home.module.css';
-import sample from '../images/Sample.png';
-import sampleColumn from '../images/Sample_column.png';
+import sampleDesktop from '../images/SampleDesktop.png';
+import sampleMobile from '../images/SampleMobile.png';
 import { SubmitButton } from '../components/SubmitButton';
 
 export const Home = () => {
@@ -19,7 +19,10 @@ export const Home = () => {
 					Übersichtliche und einfache Terminfindung. Sonst nichts.
 				</h3>
 			</div>
-			<img src={sample} className={styles.hero} />
+			<div className={styles.heroContainer}>
+				<img src={sampleDesktop} className={styles.heroDesktop} />
+				<img src={sampleMobile} className={styles.heroMobile} />
+			</div>
 			<div
 				className={styles.newPollButton}
 				onClick={() => history.push('/new')}
@@ -30,7 +33,6 @@ export const Home = () => {
 				</h1>
 				<SubmitButton id={styles.embeddedSubmit} />
 			</div>
-			<img src={sampleColumn} className={styles.heroColumn} />
 		</div>
 	);
 };
