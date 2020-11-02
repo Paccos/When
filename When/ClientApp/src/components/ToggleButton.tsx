@@ -3,9 +3,7 @@ import React from 'react';
 import { SelectionState } from '../types/PollTypes';
 
 import styles from './ToggleButton.module.css';
-
 import checkmark from '../images/Checkmark.png';
-import cross from '../images/Cross.png';
 
 export const ToggleButton = (props: {
 	buttonState: SelectionState;
@@ -29,10 +27,7 @@ export const ToggleButton = (props: {
 					props.handleButtonChange(SelectionState.Yes);
 			}}
 		>
-			<img
-				src={checkmark}
-				alt={SelectionState[buttonState]}
-			/>
+			<img src={checkmark} alt={SelectionState[buttonState]} />
 		</button>
 	);
 };
