@@ -29,10 +29,7 @@ export const ToggleButton = (props: {
 					props.handleButtonChange(SelectionState.Yes);
 			}}
 		>
-			<img
-				src={checkmark}
-				alt={SelectionState[buttonState]}
-			/>
+			<img src={checkmark} alt={SelectionState[buttonState]} />
 		</button>
 	);
 };
