@@ -19,8 +19,6 @@ const SwalWReact = withReactContent(Swal);
 export const Poll = () => {
 	/* States / Properties */
 
-	const displayName = Poll.name;
-
 	const { pollId } = useParams();
 	const history = useHistory();
 
@@ -138,7 +136,7 @@ export const Poll = () => {
 
 		setIsLoading(false);
 
-		if (data.errors || data.status == 404) {
+		if (data.errors || data.status === 404) {
 			history.push('/404');
 			return;
 		}
@@ -178,7 +176,7 @@ export const Poll = () => {
 				};
 			})
 		);
-	}, [pollId]);
+	}, [pollId, history]);
 
 	const postUserSelection = async (
 		username: string,
