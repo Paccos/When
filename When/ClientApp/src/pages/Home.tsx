@@ -20,8 +20,16 @@ export const Home = () => {
 				</h3>
 			</div>
 			<div className={styles.heroContainer}>
-				<img src={sampleDesktop} className={styles.heroDesktop} />
-				<img src={sampleMobile} className={styles.heroMobile} />
+				<img
+					src={sampleDesktop}
+					className={styles.heroDesktop}
+					alt="Screenshot of Desktop version"
+				/>
+				<img
+					src={sampleMobile}
+					className={styles.heroMobile}
+					alt="Screenshot of Mobile version"
+				/>
 			</div>
 			<div
 				className={styles.newPollButton}
