@@ -9,7 +9,7 @@ export const Layout = (props: { children: React.ReactNode }) => {
 			<Container>
 				{props.children}
 				<footer>
-					© 2020 Patryk Pekala
+					© 2020-2021 Patryk Pekala
 					<br />
 					<a href="https://github.com/paccos/when">View Code on GitHub</a>
 				</footer>
